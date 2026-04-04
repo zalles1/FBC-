@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Asesor Jurídico Bolivia · Lic. Carmen Beatriz Zalles Castellanos</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+/* ══════ DESIGN TOKENS ══════ */
+:root{
+  --cream:#f5f1eb;
+  --cream2:#ede8df;
+  --cream3:#e4ddd2;
+  --ivory:#faf8f5;
+  --ivory2:#f5f2ec;
+  --brown:#2c2418;
+  --brown2:#4a3d2c;
+  --brown3:#6b5a44;
+  --muted:#9a8870;
+  --gold:#7a5c1e;
+  --gold2:#9a7530;
+  --gold3:#c4a060;
+  --goldBg:rgba(180,140,60,.09);
+  --goldBg2:rgba(180,140,60,.16);
+  --border:#d0c4a0;
+  --border2:#b8a87a;
+  --green:#2d6b48;
+  --red:#8b2e2e;
+  --blue:#2a4878;
+  --shadow:0 1px 3px rgba(44,36,24,.10);
+  --shadow2:0 2px 10px rgba(44,36,24,.13);
+  --r:8px;
+  /* Layout heights - used throughout */
+  --hh:56px;   /* header */
+  --bnh:58px;  /* bottom nav */
+  --sbw:268px; /* sidebar */
+  --rpw:306px; /* right panel */
+}
+
+/* ══════ RESET ══════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;-webkit-text-size-adjust:100%;overflow:hidden}
+body{font-family:'Source Sans 3',system-ui,sans-serif;background:var(--cream);color:var(--brown);display:flex;flex-direction:column;font-size:14px;line-height:1.5}
+input,textarea,select,button{font-family:inherit;font-size:inherit}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--cream2)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--border2)}
+
+/* ══════ HEADER ══════ */
+#hdr{
+  height:var(--hh);flex-shrink:0;z-index:100;
+  background:linear-gradient(135deg,var(--brown) 0%,var(--brown2) 60%,var(--brown) 100%);
+  border-bottom:2px solid var(--gold2);
+  display:flex;align-items:center;gap:12px;padding:0 16px;
+}
+.hdr-seal{width:36px;height:36px;border:1.5px solid var(--gold3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 0 12px rgba(196,160,96,.22)}
+.hdr-info{flex:1;min-width:0;overflow:hidden}
+.hdr-t{font-family:'Libre Baskerville',serif;font-size:14px;font-weight:700;color:#ede8d8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr-s{font-size:9.5px;color:#9a8060;letter-spacing:.1em;text-transform:uppercase;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.hdr-btn{background:rgba(196,160,96,.14);border:1px solid rgba(196,160,96,.28);border-radius:6px;padding:5px 11px;font-size:11px;color:var(--gold3);cursor:pointer;transition:all .18s;white-space:nowrap}
+.hdr-btn:hover,.hdr-btn.on{background:rgba(196,160,96,.26);border-color:var(--gold3)}
+.live-badge{display:flex;align-items:center;gap:5px;font-size:10.5px;color:#90c88a;padding:4px 9px;border-radius:20px;background:rgba(46,107,72,.22);border:1px solid rgba(46,107,72,.35);flex-shrink:0}
+.dot{width:6px;height:6px;border-radius:50%;background:#6cbf8a;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* ══════ MAIN SHELL ══════ */
+#shell{flex:1;display:flex;overflow:hidden;position:relative}
+
+/* ══════ SIDEBAR (PC) ══════ */
+#sb{
+  width:var(--sbw);flex-shrink:0;
+  background:var(--ivory);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.sb-top{padding:9px 10px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:7px;background:var(--ivory2);flex-shrink:0}
+.search-wrap{position:relative}
+.search-wrap input{width:100%;background:var(--ivory);border:1px solid var(--border);border-radius:6px;padding:7px 10px 7px 30px;color:var(--brown);font-size:13px;outline:none;transition:border-color .18s}
+.search-wrap input:focus{border-color:var(--gold2)}
+.search-wrap input::placeholder{color:var(--muted)}
+.search-wrap .si{position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);pointer-events:none}
+.sb-tabs{display:flex;background:var(--cream3);border-radius:6px;padding:2px;gap:2px}
+.sb-tab{flex:1;padding:5px 4px;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);cursor:pointer;text-align:center;border-radius:5px;transition:all .16s;font-weight:500;user-select:none}
+.sb-tab.on{background:var(--ivory);color:var(--gold);box-shadow:var(--shadow);font-weight:600}
+.sb-body{flex:1;overflow-y:auto}
+
+/* ACCORDION */
+.acc{border-bottom:1px solid var(--cream3)}
+.acc-hdr{
+  display:flex;align-items:center;gap:8px;padding:10px 12px;
+  cursor:pointer;background:var(--ivory2);
+  transition:background .14s;user-select:none;
+}
+.acc-hdr:hover{background:var(--cream2)}
+.acc-hdr.open{background:var(--cream3)}
+.acc-ico{font-size:15px;flex-shrink:0;pointer-events:none}
+.acc-lbl{flex:1;font-size:12.5px;font-weight:600;color:var(--brown2);pointer-events:none}
+.acc-hdr.open .acc-lbl{color:var(--gold)}
+.acc-cnt{font-size:10px;color:var(--muted);background:var(--cream2);border-radius:10px;padding:1px 7px;pointer-events:none;flex-shrink:0}
+.acc-arr{font-size:10px;color:var(--muted);transition:transform .2s;pointer-events:none;flex-shrink:0}
+.acc-hdr.open .acc-arr{transform:rotate(180deg);color:var(--gold2)}
+.acc-body{display:none;background:var(--ivory)}
+.acc-body.open{display:block;border-top:1px solid var(--cream3)}
+
+/* DOC ITEMS */
+.di{
+  display:flex;align-items:flex-start;gap:8px;padding:8px 10px 8px 12px;
+  cursor:pointer;border-bottom:1px dashed var(--cream2);
+  border-left:3px solid transparent;
+  transition:background .12s,border-left-color .12s;
+}
+.di:last-child{border-bottom:none}
+.di:hover{background:var(--goldBg);border-left-color:var(--border)}
+.di.on{background:var(--goldBg2);border-left-color:var(--gold2)}
+.di.on .di-name{color:var(--gold);font-weight:600}
+.di-ico{font-size:14px;flex-shrink:0;margin-top:1px;pointer-events:none}
+.di-info{flex:1;min-width:0;pointer-events:none}
+.di-name{font-size:12.5px;color:var(--brown2);line-height:1.3}
+.di-sub{font-size:10.5px;color:var(--muted);margin-top:1px}
+.di-badge{font-size:8.5px;color:var(--gold2);background:var(--goldBg);border:1px solid rgba(154,117,48,.25);border-radius:3px;padding:1px 5px;flex-shrink:0;margin-top:3px;pointer-events:none}
+
+.sb-foot{padding:8px 10px;border-top:1px solid var(--border);background:var(--ivory2);flex-shrink:0}
+.btn-new{width:100%;background:transparent;border:1.5px solid var(--border2);color:var(--gold);padding:7px;border-radius:6px;cursor:pointer;transition:all .18s;font-weight:500;font-size:13px}
+.btn-new:hover{background:var(--goldBg2);border-color:var(--gold2)}
+
+/* ══════ MAIN CHAT ══════ */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--cream)}
+
+.chat-area{flex:1;overflow-y:auto;padding:20px 26px;display:flex;flex-direction:column;gap:16px}
+
+/* Welcome */
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:58vh;text-align:center;gap:13px;animation:fi .4s ease}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.w-seal{width:70px;height:70px;border:2px solid var(--gold2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;background:var(--ivory);box-shadow:var(--shadow2)}
+.w-title{font-family:'Libre Baskerville',serif;font-size:20px;color:var(--brown);line-height:1.3;max-width:340px}
+.w-sub{font-size:13.5px;color:var(--brown3);max-width:420px;line-height:1.7}
+.w-feats{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.w-feat{font-size:11.5px;color:var(--gold);padding:3px 11px;background:var(--goldBg);border:1px solid var(--border);border-radius:20px}
+.w-hint{font-size:13px;color:var(--brown3);background:var(--ivory2);border:1px solid var(--border);border-radius:var(--r);padding:10px 16px;max-width:440px;line-height:1.6;text-align:center}
+.w-hint b{color:var(--gold)}
+.w-pill-row{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.w-pill{display:inline-flex;align-items:center;gap:5px;background:var(--goldBg);border:1px solid var(--border2);border-radius:20px;padding:4px 12px;font-size:11.5px;color:var(--gold);font-weight:600;cursor:pointer;transition:all .14s}
+.w-pill:hover{background:var(--goldBg2)}
+.w-author{display:flex;align-items:center;gap:10px;padding:9px 14px;background:var(--ivory2);border:1px solid var(--border);border-radius:var(--r);max-width:400px}
+.w-author-ico{font-size:22px;flex-shrink:0}
+.w-author-name{font-family:'Libre Baskerville',serif;font-size:13px;color:var(--gold);font-weight:700;line-height:1.2}
+.w-author-sub{font-size:10.5px;color:var(--muted);margin-top:1px;line-height:1.3}
+
+/* Messages */
+.msg{display:flex;gap:8px;max-width:840px;animation:fi .22s ease}
+.msg.u{flex-direction:row-reverse;align-self:flex-end}
+.msg.a{align-self:flex-start}
+.av{width:29px;height:29px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:2px;box-shadow:var(--shadow)}
+.msg.u .av{background:var(--brown);color:#ede8d8}
+.msg.a .av{background:var(--ivory);border:1.5px solid var(--border2);color:var(--gold);font-size:16px}
+.msg-body{display:flex;flex-direction:column;gap:4px;max-width:100%}
+.bubble{padding:11px 15px;border-radius:var(--r);font-size:13.5px;line-height:1.75}
+.msg.u .bubble{background:var(--brown);color:#ede8d8;border-radius:var(--r) 3px var(--r) var(--r)}
+.msg.a .bubble{background:var(--ivory);border:1px solid var(--border);border-radius:3px var(--r) var(--r) var(--r);box-shadow:var(--shadow)}
+/* Bubble markdown */
+.bubble h1{font-family:'Libre Baskerville',serif;font-size:14.5px;color:var(--brown);margin:13px 0 5px;text-align:center;text-transform:uppercase;letter-spacing:.05em}
+.bubble h2{font-family:'Libre Baskerville',serif;font-size:13px;color:var(--brown);margin:11px 0 4px;border-bottom:1px solid var(--border);padding-bottom:3px}
+.bubble h3{font-size:12.5px;color:var(--gold);font-weight:600;margin:8px 0 3px}
+.bubble p{margin:4px 0}
+.bubble ul,.bubble ol{padding-left:17px;margin:4px 0}
+.bubble li{margin:2px 0;font-size:13px}
+.bubble strong{color:var(--brown);font-weight:700}
+.bubble em{color:var(--brown3);font-style:italic}
+.bubble code{font-family:'DM Mono',monospace;font-size:11px;background:var(--cream2);padding:1px 5px;border-radius:3px;color:var(--gold)}
+.bubble blockquote{border-left:3px solid var(--gold3);padding:2px 0 2px 11px;margin:7px 0;color:var(--brown3);font-style:italic}
+.bubble hr{border:none;border-top:1px solid var(--border);margin:10px 0}
+.bubble table{width:100%;border-collapse:collapse;margin:7px 0;font-size:12.5px}
+.bubble th{background:var(--ivory2);color:var(--gold);padding:5px 9px;text-align:left;border:1px solid var(--border);font-size:11.5px;font-weight:600}
+.bubble td{padding:4px 9px;border:1px solid var(--border);color:var(--brown2)}
+/* Message actions */
+.msg-acts{display:flex;gap:4px;flex-wrap:wrap;opacity:0;transition:opacity .16s}
+.msg:hover .msg-acts,.msg-acts:focus-within{opacity:1}
+.act{background:var(--ivory);border:1px solid var(--border);color:var(--muted);font-size:10.5px;padding:3px 8px;border-radius:5px;cursor:pointer;transition:all .13s;white-space:nowrap}
+.act:hover{background:var(--goldBg);color:var(--gold);border-color:var(--border2)}
+.act.w{color:var(--blue);border-color:rgba(42,72,120,.22)}
+.act.w:hover{background:rgba(42,72,120,.08);border-color:var(--blue)}
+.act.p{color:var(--red);border-color:rgba(139,46,46,.22)}
+.act.p:hover{background:rgba(139,46,46,.08);border-color:var(--red)}
+.act.j{color:var(--green);border-color:rgba(45,107,72,.22)}
+.act.j:hover{background:rgba(45,107,72,.08);border-color:var(--green)}
+/* Typing */
+.typ-row{display:flex;gap:8px;align-self:flex-start}
+.typ-bub{background:var(--ivory);border:1px solid var(--border);border-radius:3px var(--r) var(--r) var(--r);padding:10px 15px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);font-style:italic;box-shadow:var(--shadow)}
+.tdots span{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--gold3);animation:td .9s infinite}
+.tdots span:nth-child(2){animation-delay:.2s}
+.tdots span:nth-child(3){animation-delay:.4s}
+@keyframes td{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-4px);opacity:1}}
+
+/* ══════ INPUT ZONE ══════ */
+.input-zone{padding:10px 26px 14px;flex-shrink:0;background:var(--ivory2);border-top:1px solid var(--border)}
+.ctx-row{display:flex;gap:7px;margin-bottom:8px;flex-wrap:wrap;align-items:center}
+.ctx-lbl{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.ctx-sel,.ctx-in{background:var(--ivory);border:1px solid var(--border);border-radius:5px;color:var(--brown);font-size:12.5px;padding:4px 8px;outline:none;cursor:pointer}
+.ctx-in{width:118px}
+.ctx-sel:focus,.ctx-in:focus{border-color:var(--gold2)}
+.inp-row{display:flex;gap:8px;align-items:flex-end;background:var(--ivory);border:1.5px solid var(--border);border-radius:10px;padding:8px 11px;transition:border-color .18s;box-shadow:var(--shadow)}
+.inp-row:focus-within{border-color:var(--gold2);box-shadow:0 0 0 3px rgba(154,117,48,.08)}
+#inp{flex:1;background:transparent;border:none;outline:none;color:var(--brown);resize:none;min-height:22px;max-height:130px;line-height:1.5;font-size:14px}
+#inp::placeholder{color:var(--muted)}
+.send-btn{width:35px;height:35px;background:var(--brown);border:none;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;color:#ede8d8;flex-shrink:0;transition:all .16s}
+.send-btn:hover{background:var(--brown2)}
+.send-btn:active{transform:scale(.91)}
+.send-btn:disabled{background:var(--cream3);color:var(--muted);cursor:not-allowed}
+.inp-hint{text-align:center;margin-top:5px;font-size:9.5px;color:var(--muted);letter-spacing:.05em}
+
+/* ══════ RIGHT PANEL (PC) ══════ */
+#rp{
+  width:var(--rpw);flex-shrink:0;
+  background:var(--ivory);border-left:1px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden;
+  transition:width .24s ease,opacity .24s;
+}
+#rp.hidden{width:0;opacity:0;pointer-events:none;overflow:hidden}
+.rp-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--ivory2)}
+.rp-tab{flex:1;padding:10px 6px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);cursor:pointer;text-align:center;border-bottom:2px solid transparent;transition:all .16s;font-weight:500;user-select:none}
+.rp-tab.on{color:var(--gold);border-bottom-color:var(--gold2);background:var(--ivory)}
+.rp-pane{flex:1;display:none;flex-direction:column;overflow:hidden}
+.rp-pane.on{display:flex}
+
+/* ── Requisitos pane ── */
+.rq-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;color:var(--muted);text-align:center}
+.rq-empty .ei{font-size:40px;opacity:.3}
+.rq-empty p{font-size:13px;line-height:1.65;max-width:200px}
+#rqCard{flex:1;overflow-y:auto;display:none;flex-direction:column}
+
+.rq{display:flex;flex-direction:column}
+.rq-hero{padding:13px 15px;background:var(--cream2);border-bottom:1px solid var(--border);flex-shrink:0}
+.rq-pills{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px}
+.rq-pill{font-size:9px;padding:2px 8px;border-radius:12px;border:1px solid var(--border2);color:var(--gold2);background:var(--goldBg);letter-spacing:.07em;text-transform:uppercase;font-weight:600}
+.rq-name{font-family:'Libre Baskerville',serif;font-size:15.5px;color:var(--brown);line-height:1.3;margin-bottom:4px}
+.rq-desc{font-size:12px;color:var(--brown3);line-height:1.6}
+.rq-sec{padding:11px 15px;border-bottom:1px solid var(--cream2)}
+.rq-sec-hdr{display:flex;align-items:center;gap:7px;margin-bottom:9px}
+.rq-sec-ico{width:24px;height:24px;border-radius:50%;background:var(--goldBg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.rq-sec-title{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-weight:600}
+/* Progress */
+.rq-prog{background:var(--ivory2);border:1px solid var(--border);border-radius:6px;padding:8px 10px;margin-bottom:9px}
+.rq-prog-lbl{font-size:10px;color:var(--muted);margin-bottom:4px;font-weight:500}
+.rq-prog-bar{background:var(--cream2);border-radius:4px;height:5px;overflow:hidden}
+.rq-prog-fill{height:100%;background:linear-gradient(90deg,var(--gold2),var(--gold3));border-radius:4px;transition:width .35s}
+.rq-prog-n{font-size:10.5px;color:var(--muted);margin-top:3px;text-align:right}
+/* Checklist */
+.rq-docs{display:flex;flex-direction:column;gap:4px}
+.rq-doc{display:flex;align-items:flex-start;gap:7px;padding:7px 9px;background:var(--ivory);border:1px solid var(--border);border-radius:5px;font-size:11.5px;color:var(--brown2);cursor:pointer;transition:all .13s;line-height:1.4}
+.rq-doc:hover{border-color:var(--border2);background:var(--goldBg)}
+.rq-doc.chk{background:rgba(45,107,72,.05);border-color:rgba(45,107,72,.22);color:var(--muted);text-decoration:line-through}
+.rq-cb{width:14px;height:14px;border:1.5px solid var(--border2);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;transition:all .13s;margin-top:1px;pointer-events:none}
+.rq-doc.chk .rq-cb{background:var(--green);border-color:var(--green)}
+/* Steps */
+.rq-steps{display:flex;flex-direction:column}
+.rq-step{display:flex;gap:9px;position:relative;padding-bottom:10px}
+.rq-step:not(:last-child)::after{content:'';position:absolute;left:11px;top:24px;width:1px;height:calc(100% - 14px);background:linear-gradient(var(--border),transparent)}
+.rq-step-n{width:23px;height:23px;border-radius:50%;background:var(--goldBg);border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--gold);font-weight:700;flex-shrink:0;font-family:'DM Mono',monospace}
+.rq-step-body{flex:1}
+.rq-step-t{font-size:12px;color:var(--brown);font-weight:600;line-height:1.3}
+.rq-step-s{font-size:11px;color:var(--brown3);margin-top:2px;line-height:1.4}
+/* Laws */
+.rq-laws{display:flex;flex-direction:column;gap:4px}
+.rq-law{display:flex;align-items:flex-start;gap:6px;padding:5px 8px;background:var(--ivory2);border-radius:5px;border:1px solid var(--cream3);font-size:11px;color:var(--brown2)}
+/* Badges */
+.rq-badges{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:11px 15px;border-bottom:1px solid var(--cream2)}
+.rq-badge{background:var(--ivory2);border:1px solid var(--border);border-radius:6px;padding:8px;text-align:center}
+.rq-badge .bi{font-size:15px;margin-bottom:2px}
+.rq-badge .bl{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.rq-badge .bv{font-size:11px;color:var(--brown);font-weight:600;line-height:1.3}
+.rq-office{margin:11px 15px;background:rgba(45,107,72,.07);border:1px solid rgba(45,107,72,.18);border-radius:6px;padding:9px 11px;display:flex;gap:7px}
+.rq-office .oi{font-size:15px;flex-shrink:0;margin-top:1px}
+.rq-office .ol{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:2px;font-weight:600}
+.rq-office .ov{font-size:11.5px;color:#3a8a5a;line-height:1.45}
+.rq-consult{width:calc(100% - 30px);margin:0 15px 15px;background:var(--brown);color:#ede8d8;padding:9px;border-radius:6px;border:none;cursor:pointer;font-size:12.5px;transition:all .16s;font-weight:500}
+.rq-consult:hover{background:var(--brown2)}
+
+/* ── Jurisprudencia pane ── */
+.jp-top{padding:9px 10px;border-bottom:1px solid var(--border);background:var(--ivory2);flex-shrink:0;display:flex;flex-direction:column;gap:6px}
+.jp-si{position:relative}
+.jp-si input{width:100%;background:var(--ivory);border:1px solid var(--border);border-radius:6px;padding:6px 10px 6px 28px;color:var(--brown);font-size:12.5px;outline:none;transition:border-color .16s}
+.jp-si input:focus{border-color:var(--gold2)}
+.jp-si .si{position:absolute;left:7px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--muted);pointer-events:none}
+.jp-filters{display:flex;gap:4px;flex-wrap:wrap}
+.jp-f{font-size:10.5px;padding:3px 9px;border:1px solid var(--border);border-radius:20px;color:var(--muted);cursor:pointer;transition:all .13s;background:var(--ivory);user-select:none}
+.jp-f.on{background:var(--goldBg2);color:var(--gold);border-color:var(--border2);font-weight:600}
+.jp-list{flex:1;overflow-y:auto;padding:7px}
+.jp-ai-btn{display:flex;align-items:center;gap:9px;background:var(--goldBg);border:1px solid var(--border2);border-radius:7px;padding:9px;cursor:pointer;margin-bottom:7px;transition:all .16s}
+.jp-ai-btn:hover{background:var(--goldBg2);border-color:var(--gold2)}
+.jp-ai-ico{font-size:19px;flex-shrink:0}
+.jp-ai-txt b{display:block;font-size:12px;color:var(--gold);margin-bottom:1px}
+.jp-ai-txt{font-size:11px;color:var(--brown3);line-height:1.4}
+.jp-card{background:var(--ivory);border:1px solid var(--border);border-radius:6px;margin-bottom:6px;box-shadow:var(--shadow);overflow:hidden}
+.jp-card:hover{border-color:var(--border2)}
+.jp-card-hd{padding:9px 10px;display:flex;gap:6px;align-items:flex-start;cursor:pointer;user-select:none}
+.jp-tr{font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;border-radius:3px;padding:2px 5px;flex-shrink:0;font-weight:700;margin-top:2px}
+.jp-tr.tcp{background:rgba(139,46,46,.1);color:var(--red);border:1px solid rgba(139,46,46,.2)}
+.jp-tr.tsj{background:rgba(42,72,120,.1);color:var(--blue);border:1px solid rgba(42,72,120,.2)}
+.jp-tr.tdj{background:rgba(45,107,72,.1);color:var(--green);border:1px solid rgba(45,107,72,.2)}
+.jp-card-t{font-size:12px;color:var(--brown);font-weight:600;line-height:1.4;flex:1}
+.jp-card-bd{padding:8px 10px;border-top:1px solid var(--cream2);background:var(--ivory2);display:none}
+.jp-card.exp .jp-card-bd{display:block}
+.jp-card-bd p{font-size:11.5px;color:var(--brown2);line-height:1.6;margin-bottom:5px}
+.jp-card-bd p strong{color:var(--brown)}
+.jp-card-bd .cita{font-size:10.5px;color:var(--muted);margin-top:5px;font-family:'DM Mono',monospace}
+.jp-card-ft{padding:5px 10px;background:var(--cream3);display:flex;justify-content:space-between;font-size:9.5px;color:var(--muted);cursor:pointer;user-select:none;font-family:'DM Mono',monospace}
+.jp-use{width:100%;margin-top:7px;background:var(--brown);color:#ede8d8;padding:6px;border-radius:5px;border:none;cursor:pointer;font-size:12px;transition:all .16s}
+.jp-use:hover{background:var(--brown2)}
+.jp-empty{padding:20px;text-align:center;color:var(--muted);font-size:13px;font-style:italic}
+
+/* ══════ BOTTOM NAV (MOBILE) ══════ */
+#bnav{
+  display:none;height:var(--bnh);flex-shrink:0;
+  background:var(--ivory);border-top:1.5px solid var(--border);
+  align-items:stretch;z-index:200; /* HIGH z-index so it stays above panels */
+  position:relative;
+}
+.bn{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;cursor:pointer;border:none;background:transparent;
+  transition:background .14s;padding:6px 2px;
+}
+.bn:hover{background:var(--goldBg)}
+.bn-ico{font-size:18px;line-height:1}
+.bn-lbl{font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.bn.on{background:var(--goldBg)}
+.bn.on .bn-lbl{color:var(--gold);font-weight:600}
+.bn.on .bn-ico{filter:drop-shadow(0 0 3px rgba(154,117,48,.4))}
+
+/* ══════ MOBILE PANELS ══════
+   KEY FIX: position:fixed with explicit top/bottom so they NEVER cover the header or bnav
+   The bnav has z-index:200, panels have z-index:150 — panels always below nav
+══════ */
+.mpanel{
+  position:fixed;
+  left:0;right:0;
+  top:var(--hh);
+  bottom:var(--bnh);
+  z-index:150;
+  background:var(--ivory);
+  display:none;flex-direction:column;overflow:hidden;
+  animation:slideUp .24s cubic-bezier(.4,0,.2,1);
+}
+.mpanel.open{display:flex}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.mp-hdr{
+  padding:0 14px;height:46px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:9px;
+  background:var(--ivory2);flex-shrink:0;
+}
+.mp-ttl{font-family:'Libre Baskerville',serif;font-size:15px;color:var(--brown);flex:1}
+.mp-x{background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;line-height:1;padding:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background .13s}
+.mp-x:hover{background:var(--cream2);color:var(--brown)}
+.mp-body{flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0}
+.mp-scroll{flex:1;overflow-y:auto;min-height:0}
+
+/* ══════ TOAST ══════ */
+#toast{
+  position:fixed;bottom:calc(var(--bnh) + 10px);left:50%;
+  transform:translateX(-50%) translateY(8px);
+  background:var(--brown);color:#ede8d8;
+  padding:7px 18px;border-radius:20px;font-size:12px;
+  opacity:0;transition:all .22s;pointer-events:none;z-index:999;
+  white-space:nowrap;box-shadow:var(--shadow2);
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(min-width:851px){#toast{bottom:18px}}
+
+/* ══════ RESPONSIVE ══════ */
+@media(max-width:1080px){:root{--rpw:282px}}
+@media(max-width:850px){
+  #sb,#rp,#rp.hidden{display:none!important}
+  #bnav{display:flex}
+  .chat-area{padding:14px}
+  .input-zone{padding:8px 14px 12px}
+  .ctx-row{display:none}
+}
+@media(max-width:500px){
+  .hdr-s,.live-badge{display:none}
+  .hdr-btn{display:none}
+  .w-feats{display:none}
+  .bubble{font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<div id="hdr">
+  <div class="hdr-seal">⚖</div>
+  <div class="hdr-info">
+    <div class="hdr-t">Asesor Jurídico · Estado Plurinacional de Bolivia</div>
+    <div class="hdr-s">Lic. Carmen Beatriz Zalles Castellanos · UAJMS · Ciencias Empresariales · Sede Yacuiba</div>
+  </div>
+  <div class="hdr-right">
+    <button class="hdr-btn" id="btnRP" onclick="toggleRP()">📋 Requisitos / Juris.</button>
+    <div class="live-badge"><span class="dot"></span>IA Activa</div>
+  </div>
+</div>
+
+<!-- ═══ MAIN SHELL ═══ -->
+<div id="shell">
+
+  <!-- LEFT SIDEBAR (PC) -->
+  <div id="sb">
+    <div class="sb-top">
+      <div class="search-wrap">
+        <span class="si">🔍</span>
+        <input type="text" id="sbQ" placeholder="Buscar documento o trámite…" oninput="renderSB(this.value)">
+      </div>
+      <div class="sb-tabs" id="sbTabs">
+        <div class="sb-tab on" onclick="swTab(0,this)">Documentos</div>
+        <div class="sb-tab" onclick="swTab(1,this)">Trámites</div>
+      </div>
+    </div>
+    <div class="sb-body" id="sbBody"></div>
+    <div class="sb-foot">
+      <button class="btn-new" onclick="clearChat()">✦ Nueva consulta</button>
+    </div>
+  </div>
+
+  <!-- CHAT MAIN -->
+  <div id="main">
+    <div class="chat-area" id="chatArea">
+      <div class="welcome" id="welcome">
+        <div class="w-seal">⚖</div>
+        <div class="w-title">Asesor Jurídico Bolivia</div>
+        <p class="w-sub">Redacto documentos legales en formato oficial boliviano, explico requisitos de trámites paso a paso y consulto jurisprudencia del TCP y TSJ.</p>
+        <div class="w-feats">
+          <span class="w-feat">📄 Word &amp; PDF</span>
+          <span class="w-feat">✅ Checklist de documentos</span>
+          <span class="w-feat">⚖ Jurisprudencia TCP/TSJ</span>
+          <span class="w-feat">35+ tipos de documentos</span>
+        </div>
+        <div class="w-hint" id="wHint"><!-- filled by JS --></div>
+        <div class="w-author">
+          <span class="w-author-ico">⚖</span>
+          <div>
+            <div class="w-author-name">Lic. Carmen Beatriz Zalles Castellanos</div>
+            <div class="w-author-sub">Docente · UAJMS Facultad de Ciencias Empresariales · Sede Yacuiba, Tarija, Bolivia</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-zone">
+      <div class="ctx-row">
+        <span class="ctx-lbl">Ciudad:</span>
+        <select class="ctx-sel" id="ctxC"><option>Tarija</option><option>Yacuiba</option><option>Santa Cruz</option><option>La Paz</option><option>Cochabamba</option><option>Sucre</option><option>Oruro</option><option>Potosí</option><option>Trinidad</option><option>Cobija</option></select>
+        <span class="ctx-lbl">Fecha:</span>
+        <input type="date" class="ctx-in" id="ctxF">
+        <span class="ctx-lbl">Tipo:</span>
+        <select class="ctx-sel" id="ctxT"><option value="">General</option><option>Memorial</option><option>Contrato</option><option>Demanda</option><option>Recurso</option><option>Denuncia</option><option>Poder Notarial</option><option>Convenio</option></select>
+      </div>
+      <div class="inp-row">
+        <textarea id="inp" rows="1" placeholder="Escriba su consulta jurídica o seleccione un documento del menú izquierdo…" onkeydown="hKey(event)" oninput="aResize(this)"></textarea>
+        <button class="send-btn" id="sBtn" onclick="doSend()">➤</button>
+      </div>
+      <div class="inp-hint">CPE 2009 · Cód. Civil (Ley 12760) · Ley 603 · LGT · CPP (Ley 1970) · Ley 2341 · Normativa Autonómica Gran Chaco Tarijeño</div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL (PC) -->
+  <div id="rp" class="hidden">
+    <div class="rp-tabs">
+      <div class="rp-tab on" id="rpTab0" onclick="swRP(0)">✅ Requisitos</div>
+      <div class="rp-tab" id="rpTab1" onclick="swRP(1)">⚖ Jurisprudencia</div>
+    </div>
+    <!-- Requisitos -->
+    <div class="rp-pane on" id="rpPane0">
+      <div class="rq-empty" id="rqEmpty">
+        <div class="ei">📋</div>
+        <p>Selecciona un documento para ver requisitos y pasos del trámite</p>
+      </div>
+      <div id="rqCard"></div>
+    </div>
+    <!-- Jurisprudencia -->
+    <div class="rp-pane" id="rpPane1">
+      <div class="jp-top">
+        <div class="jp-si">
+          <span class="si">🔍</span>
+          <input type="text" id="jpQ" placeholder="Buscar resolución, tema, derecho…" oninput="renderJP()">
+        </div>
+        <div class="jp-filters" id="jpFilters">
+          <div class="jp-f on" onclick="setTrib(this,'all')">Todos</div>
+          <div class="jp-f" onclick="setTrib(this,'tcp')">TCP</div>
+          <div class="jp-f" onclick="setTrib(this,'tsj')">TSJ</div>
+          <div class="jp-f" onclick="setTrib(this,'tdj')">TDJ</div>
+        </div>
+      </div>
+      <div class="jp-list" id="jpList"></div>
+    </div>
+  </div>
+
+</div><!-- #shell -->
+
+<!-- ══════ BOTTOM NAV (MOBILE) — always on top z-index:200 ══════ -->
+<div id="bnav">
+  <button class="bn on" id="bn0" onclick="mNav(0)"><span class="bn-ico">💬</span><span class="bn-lbl">Chat</span></button>
+  <button class="bn" id="bn1" onclick="mNav(1)"><span class="bn-ico">📄</span><span class="bn-lbl">Documentos</span></button>
+  <button class="bn" id="bn2" onclick="mNav(2)"><span class="bn-ico">✅</span><span class="bn-lbl">Requisitos</span></button>
+  <button class="bn" id="bn3" onclick="mNav(3)"><span class="bn-ico">⚖</span><span class="bn-lbl">Jurisprudencia</span></button>
+</div>
+
+<!-- ══════ MOBILE PANELS — position:fixed, z-index:150 (BELOW bnav z-index:200) ══════ -->
+<!-- DOCS -->
+<div class="mpanel" id="mDocs">
+  <div class="mp-hdr">
+    <span style="font-size:18px">📄</span>
+    <span class="mp-ttl">Documentos Jurídicos</span>
+    <button class="mp-x" onclick="mNav(0)" title="Cerrar">✕</button>
+  </div>
+  <div class="mp-body">
+    <div class="sb-top">
+      <div class="search-wrap">
+        <span class="si">🔍</span>
+        <input type="text" placeholder="Buscar documento o trámite…" oninput="renderSB(this.value)">
+      </div>
+      <div class="sb-tabs" id="mSbTabs">
+        <div class="sb-tab on" onclick="swTab(0,this)">Documentos</div>
+        <div class="sb-tab" onclick="swTab(1,this)">Trámites</div>
+      </div>
+    </div>
+    <div class="sb-body mp-scroll" id="mSbBody"></div>
+  </div>
+</div>
+
+<!-- REQUISITOS -->
+<div class="mpanel" id="mReq">
+  <div class="mp-hdr">
+    <span style="font-size:18px">✅</span>
+    <span class="mp-ttl" id="mReqTitle">Requisitos del Trámite</span>
+    <button class="mp-x" onclick="mNav(0)" title="Cerrar">✕</button>
+  </div>
+  <div class="mp-body">
+    <div class="mp-scroll" id="mRqCard">
+      <div class="rq-empty"><div class="ei">📋</div><p>Selecciona un trámite para ver los requisitos</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- JURISPRUDENCIA -->
+<div class="mpanel" id="mJuris">
+  <div class="mp-hdr">
+    <span style="font-size:18px">⚖</span>
+    <span class="mp-ttl">Jurisprudencia Boliviana</span>
+    <button class="mp-x" onclick="mNav(0)" title="Cerrar">✕</button>
+  </div>
+  <div class="mp-body">
+    <div class="jp-top" style="flex-shrink:0">
+      <div class="jp-si">
+        <span class="si">🔍</span>
+        <input type="text" id="jpQM" placeholder="Buscar resolución, tema, derecho…" oninput="renderJPM()">
+      </div>
+      <div class="jp-filters" id="jpFiltersM">
+        <div class="jp-f on" onclick="setTribM(this,'all')">Todos</div>
+        <div class="jp-f" onclick="setTribM(this,'tcp')">TCP</div>
+        <div class="jp-f" onclick="setTribM(this,'tsj')">TSJ</div>
+        <div class="jp-f" onclick="setTribM(this,'tdj')">TDJ</div>
+      </div>
+    </div>
+    <div class="jp-list mp-scroll" id="jpListM"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ══════════════════════════════════
+   SYSTEM PROMPT
+══════════════════════════════════ */
+const SYS = `Eres el Dr. Lex Bolivia, abogado litigante y asesor jurídico experto EXCLUSIVAMENTE en la legislación del Estado Plurinacional de Bolivia, con 25 años de experiencia en todas las ramas del derecho boliviano.
+
+ESPECIALIDADES: Civil (CC Ley 12760), Familiar (Ley 603), Laboral (LGT, DS 23570, DS 28699), Penal (Ley 10426, CPP Ley 1970), Administrativo (Ley 2341, DS 27113), Constitucional (CPE 2009, Ley 254, Ley 027), Comercial (DL 14379, FUNDEMPRESA), Tributario (Ley 843, Ley 2492), Derechos Indígenas Gran Chaco (CPE Arts. 30-32, Convenio 169 OIT).
+
+═══ FORMATO OFICIAL BOLIVIANO PARA MEMORIALES Y DEMANDAS ═══
+
+[Ciudad], [día] de [mes] de [año]
+
+SEÑOR [CARGO EN MAYÚSCULAS]:
+
+Yo, [NOMBRE COMPLETO], con Cédula de Identidad N° [número], de [profesión/ocupación], con domicilio en [dirección, ciudad], ante usted con el debido respeto me presento y expongo:
+
+I. ANTECEDENTES
+
+[Narración de los hechos en forma cronológica y clara]
+
+II. FUNDAMENTO JURÍDICO
+
+[Artículos específicos de leyes bolivianas: ej. "Conforme al Art. 16 de la Ley General del Trabajo..."]
+
+III. PETITORIO
+
+Por lo fundado, al señor [cargo] pido y solicito:
+PRIMERO.- [Primera petición]
+SEGUNDO.- [Segunda petición]
+
+Es justicia que espero merecer.
+Provéase.
+
+[Ciudad], [fecha]
+
+Fdo. _______________________     Abog. _______________________
+[Nombre Completo]                [Nombre del Abogado]
+C.I. N° [número]                 Mat. Prof. N° [número]
+
+═══ FORMATO OFICIAL PARA CONTRATOS ═══
+
+[Ciudad], [fecha]
+
+CONTRATO [TIPO] DE [OBJETO]
+
+En la ciudad de [ciudad], Departamento de [departamento], Estado Plurinacional de Bolivia, a los [día] días del mes de [mes] de [año].
+
+PARTES CONTRATANTES:
+
+PRIMERA PARTE ([ROL]): [Nombre completo], boliviano/a, mayor de edad, con Cédula de Identidad N° [número] expedida en [ciudad], con domicilio en [dirección], a quien en adelante se denominará "[Rol abreviado]".
+
+SEGUNDA PARTE ([ROL]): [Nombre completo], boliviano/a, mayor de edad, con Cédula de Identidad N° [número] expedida en [ciudad], con domicilio en [dirección], a quien en adelante se denominará "[Rol abreviado]".
+
+CLÁUSULAS:
+
+PRIMERA.- (OBJETO) [Descripción del objeto]
+SEGUNDA.- (PRECIO/CANON/MONTO) [Monto en bolivianos en letras y números: Bs. [número] ([en letras] 00/100 Bolivianos)]
+TERCERA.- (PLAZOS) [...]
+CUARTA.- (OBLIGACIONES DEL VENDEDOR/ARRENDADOR/MUTUANTE) [...]
+QUINTA.- (OBLIGACIONES DEL COMPRADOR/ARRENDATARIO/MUTUARIO) [...]
+[DEMÁS CLÁUSULAS SEGÚN EL TIPO]
+PENÚLTIMA.- (DOMICILIO ESPECIAL) Las partes constituyen domicilio especial en la ciudad de [ciudad] para todos los efectos legales del presente contrato.
+ÚLTIMA.- (COMPETENCIA) Para toda controversia derivada del presente contrato, las partes se someten expresamente a la competencia de los Tribunales de Justicia de la ciudad de [ciudad].
+
+En señal de conformidad y plena aceptación de todas las cláusulas precedentes, las partes firman el presente contrato en dos ejemplares de un mismo tenor y efecto legal, en la ciudad de [ciudad], a los [fecha].
+
+_______________________________     _______________________________
+[NOMBRE PRIMERA PARTE]               [NOMBRE SEGUNDA PARTE]
+C.I. N° [número]                     C.I. N° [número]
+
+═══ FORMATO PODER NOTARIAL ═══
+
+INSTRUMENTO N° [número]/[año]
+
+En la ciudad de [ciudad], Capital del Departamento de [departamento], Estado Plurinacional de Bolivia, el día [día] de [mes] del año [año].
+
+ANTE MÍ: [Nombre del Notario], Notario de Fe Pública N° [número] del Distrito Judicial de [ciudad], provincia [provincia], departamento [departamento].
+
+COMPARECE: El señor [Nombre completo del poderdante], de nacionalidad boliviana, mayor de edad, con Cédula de Identidad N° [número] expedida en [ciudad], de estado civil [estado], de profesión [profesión], con domicilio en [dirección].
+
+El compareciente, a quien doy fe de conocer y de hallarse en pleno ejercicio de sus capacidades civiles, procede a OTORGAR PODER NOTARIAL [GENERAL/ESPECIAL], a favor de:
+
+[Nombre completo del apoderado], boliviano/a, mayor de edad, con C.I. N° [número] expedida en [ciudad], para que en su nombre y representación pueda: [ALCANCES DEL PODER].
+
+El presente poder se otorga con todas las facultades que la ley autoriza para el ejercicio del mandato.
+
+En señal de conformidad, el poderdante firma y sella el presente instrumento.
+
+___________________________
+[Nombre del Poderdante]
+C.I. N° [número]
+
+Ante mí: ___________________________
+Notario de Fe Pública N° [número]
+[Ciudad] – Bolivia
+
+═══ PARA CONSULTAS DE REQUISITOS ═══
+Proporciona: lista numerada de documentos, pasos del trámite numerados con descripción práctica, leyes con artículos exactos, costos en bolivianos, plazos, oficina donde tramitar en Bolivia.
+
+═══ PARA JURISPRUDENCIA ═══
+Cita resoluciones del TCP, TSJ o TDJ con: número de sentencia, año, area, ratio decidendi, cómo aplicarla al caso concreto.
+
+⚠ NOTA FINAL EN DOCUMENTOS: "Este documento es un modelo orientativo. Adáptelo a los hechos específicos del caso y solicite revisión de un abogado habilitado ante el Colegio de Abogados de Bolivia."
+
+Responde SIEMPRE en español boliviano jurídico formal.`;
+
+/* ══════════════════════════════════
+   DOCUMENTS DATA
+══════════════════════════════════ */
+const DOCS = [
+{cat:"⚖ Derecho Civil", ico:"⚖", items:[
+{id:"c1",ico:"🏠",n:"Compraventa de Inmueble",s:"Cód. Civil Arts. 584-597",req:"reg-inmueble",
+p:"Redacta un CONTRATO PRIVADO DE COMPRAVENTA DE BIEN INMUEBLE conforme al Código Civil boliviano (Ley 12760), usando el formato oficial boliviano con márgenes, encabezado y cláusulas: identificación de partes con CI y domicilio, descripción del inmueble (folio real, superficie, ubicación), precio en Bs en letras y números, forma de pago, cláusula de saneamiento de evicción, tradición y entrega, penalidades por incumplimiento, domicilio especial para notificaciones y firma de cierre. Ciudad: [CIUDAD], Fecha: [FECHA]."},
+{id:"c2",ico:"🔑",n:"Contrato de Arrendamiento",s:"Cód. Civil Arts. 685-732 · Ley 351",req:"contrato-arr",
+p:"Redacta un CONTRATO DE ARRENDAMIENTO DE BIEN INMUEBLE conforme al Código Civil boliviano y la Ley 351. Formato oficial: identificación completa de arrendador y arrendatario, descripción del inmueble, canon mensual en Bs, plazo, depósito de garantía (máximo 2 meses per Ley 351), estado del inmueble, obligaciones de cada parte, causales de resolución, prórroga, domicilio especial y firmas."},
+{id:"c3",ico:"💰",n:"Contrato de Mutuo (Préstamo)",s:"Cód. Civil Arts. 820-845",req:"",
+p:"Redacta un CONTRATO DE MUTUO conforme al Código Civil boliviano Arts. 820-845. Formato oficial con: identificación de mutuante y mutuario, monto en Bs (letras y números), destino del préstamo, tasa de interés legal, plan de cuotas, cláusula de interés moratorio, garantías, vencimiento anticipado, domicilio especial y firmas."},
+{id:"c4",ico:"📝",n:"Poder Notarial General",s:"Ley 483 Notariado",req:"poder-notarial",
+p:"Redacta un TESTIMONIO DE PODER NOTARIAL GENERAL conforme a la Ley 483 del Notariado Plurinacional de Bolivia. Usa el formato oficial con número de instrumento, comparecencia ante el notario, identificación completa del poderdante y apoderado, alcances del poder (gestiones judiciales, administrativas, financieras, representación general), limitaciones y firmas."},
+{id:"c5",ico:"📋",n:"Poder Notarial Especial",s:"Ley 483 Notariado",req:"poder-notarial",
+p:"Redacta un TESTIMONIO DE PODER NOTARIAL ESPECIAL conforme a la Ley 483 del Notariado Plurinacional de Bolivia, para actos específicos (compraventa de inmueble / cobro de acreencias / representación judicial). Formato oficial completo."},
+{id:"c6",ico:"📜",n:"Demanda de Declaratoria de Herederos",s:"Cód. Civil Arts. 1000-1025",req:"sucesion",
+p:"Redacta una DEMANDA DE DECLARATORIA DE HEREDEROS ante el Juzgado Civil, con formato boliviano completo: 'Señor Juez de Partido Civil N°:', identificación del demandante, datos del causante fallecido (fecha y lugar de defunción), vínculo de parentesco, lista de herederos, fundamento en el Código Civil, petitorio y 'Es justicia que espero merecer.'"},
+{id:"c7",ico:"🏡",n:"Demanda de Usucapión",s:"Cód. Civil Arts. 134-148",req:"",
+p:"Redacta una DEMANDA DE USUCAPIÓN (prescripción adquisitiva) ante el Juzgado Civil boliviano conforme al Código Civil Arts. 134-148. Formato oficial: encabezado dirigido al Juez Civil, antecedentes de la posesión (años, forma, carácter público y pacífico), fundamento jurídico, petitorio de declaración de propiedad y 'Es justicia que espero merecer.'"},
+{id:"c8",ico:"📑",n:"Convenio de División y Partición",s:"Cód. Civil Arts. 167-171",req:"",
+p:"Redacta un CONVENIO DE DIVISIÓN Y PARTICIÓN DE BIENES COMUNES conforme al Código Civil boliviano, con identificación de copropietarios, inventario de bienes, forma de división acordada, avalúos y firmas ante testigos."},
+]},
+{cat:"👨‍👩‍👧 Derecho Familiar · Ley 603", ico:"👨‍👩‍👧", items:[
+{id:"f1",ico:"⚖",n:"Demanda de Divorcio",s:"Ley 603 Arts. 205-225",req:"divorcio",
+p:"Redacta una DEMANDA DE DESVINCULACIÓN CONYUGAL por ruptura del proyecto de vida común, ante el Juzgado Público en Materia de Familia, conforme a la Ley 603. Formato oficial: 'Señor Juez Público en Materia de Familia:', datos del demandante y demandado, fecha y lugar de matrimonio, narración de los hechos que fundamentan la ruptura, fundamento en Arts. 205-225 Ley 603, petitorio de desvinculación, definición de guardia, asistencia familiar y bienes, y 'Es justicia que espero merecer.'"},
+{id:"f2",ico:"🤝",n:"Convenio de Divorcio Mutuo",s:"Ley 603 Art. 206",req:"divorcio",
+p:"Redacta un CONVENIO REGULADOR DE DESVINCULACIÓN CONYUGAL DE MUTUO ACUERDO conforme al Art. 206 de la Ley 603. Incluye: identificación de ambos cónyuges, manifestación de voluntad, acuerdo sobre bienes gananciales, guardia y custodia de hijos, régimen de visitas detallado, asistencia familiar (monto mensual), y firmas de ambas partes."},
+{id:"f3",ico:"👶",n:"Demanda de Asistencia Familiar",s:"Ley 603 Arts. 109-139",req:"asistencia",
+p:"Redacta una DEMANDA DE ASISTENCIA FAMILIAR ante el Juzgado Público en Materia de Familia, conforme a la Ley 603 Arts. 109-139. Formato oficial boliviano completo, con monto mensual solicitado, fundamento en el derecho del menor, solicitud de medida cautelar inmediata y petitorio."},
+{id:"f4",ico:"👨‍👧",n:"Acuerdo de Guardia y Custodia",s:"Ley 603 Arts. 215-220",req:"",
+p:"Redacta un ACUERDO DE GUARDIA, CUSTODIA Y RÉGIMEN DE VISITAS de hijos menores, conforme al Código de las Familias boliviano (Ley 603) Arts. 215-220. Incluye: cláusulas de guardia, régimen de visitas detallado (fines de semana, vacaciones, feriados), asistencia alimentaria y condiciones de modificación."},
+{id:"f5",ico:"🧬",n:"Demanda de Reconocimiento de Filiación",s:"Ley 603 Arts. 50-75",req:"",
+p:"Redacta una DEMANDA DE RECONOCIMIENTO DE FILIACIÓN EXTRAMATRIMONIAL ante el Juzgado Público en Materia de Familia, conforme al Código de las Familias boliviano (Ley 603) Arts. 50-75. Formato oficial completo con petitorio de reconocimiento y prueba de ADN."},
+]},
+{cat:"💼 Derecho Laboral", ico:"💼", items:[
+{id:"l1",ico:"📄",n:"Contrato de Trabajo Indefinido",s:"LGT Arts. 1-30 · DS 23570",req:"ctrabajo",
+p:"Redacta un CONTRATO INDIVIDUAL DE TRABAJO POR TIEMPO INDEFINIDO conforme a la Ley General del Trabajo de Bolivia y el DS 23570. Formato oficial con: encabezado, identificación de empleador (NIT, razón social, representante) y trabajador (CI, domicilio), descripción del cargo y funciones, salario mensual en Bs, jornada (8h/día, 48h/semana), lugar de trabajo, beneficios, causales de extinción y firmas ante testigos."},
+{id:"l2",ico:"📅",n:"Contrato de Trabajo a Plazo Fijo",s:"LGT Art. 12 · DS 23570",req:"ctrabajo",
+p:"Redacta un CONTRATO INDIVIDUAL DE TRABAJO A PLAZO FIJO conforme a la LGT boliviana Art. 12 y el DS 23570. Incluye la justificación legal de la modalidad, fecha de inicio y de vencimiento, y todas las cláusulas obligatorias conforme a la norma."},
+{id:"l3",ico:"📤",n:"Carta de Retiro Voluntario Justificado",s:"LGT Art. 16",req:"retiro",
+p:"Redacta una CARTA DE RETIRO VOLUNTARIO JUSTIFICADO conforme al Art. 16 de la Ley General del Trabajo de Bolivia. Formato: ciudad y fecha, datos del trabajador y del empleador, causas justificadas que fundamentan el retiro (incumplimientos del empleador), mención de beneficios a reclamar (desahucio 3 meses + indemnización 1 mes/año + vacaciones + aguinaldo proporcional), firma con CI."},
+{id:"l4",ico:"⚖️",n:"Demanda Laboral por Despido",s:"LGT Arts. 55-87",req:"dlaboral",
+p:"Redacta una DEMANDA LABORAL POR DESPIDO INJUSTIFICADO ante el Ministerio de Trabajo. Formato boliviano oficial: 'Señor Director Departamental del Trabajo:', identificación del trabajador y empleador, tiempo de trabajo, forma del despido, cálculo detallado en tabla (desahucio, indemnización, vacaciones, aguinaldo prop., bono antigüedad), fundamento en LGT y DS 23570, petitorio y 'Es justicia que espero merecer.'"},
+{id:"l5",ico:"🧮",n:"Cálculo de Beneficios Sociales",s:"LGT Arts. 55-57 · DS 23570",req:"",
+p:"Elabora un CÁLCULO DETALLADO DE BENEFICIOS SOCIALES en formato de tabla, conforme a la LGT boliviana: (1) Desahucio = 3 meses de salario, (2) Indemnización = 1 mes de salario × años trabajados, (3) Vacaciones = (días trabajados/365)×15 días × (salario/30), (4) Aguinaldo proporcional = salario×meses trabajados en el año/12, (5) Bono de antigüedad según DS 23871, y TOTAL. Explica cada fórmula."},
+{id:"l6",ico:"📨",n:"Carta de Despido Justificado",s:"LGT Art. 16",req:"",
+p:"Redacta una CARTA DE DESPIDO JUSTIFICADO por el empleador conforme al Art. 16 de la Ley General del Trabajo de Bolivia, con las causales específicas debidamente fundamentadas y documentadas."},
+]},
+{cat:"🚨 Derecho Penal · CPP Ley 1970", ico:"🚨", items:[
+{id:"p1",ico:"🚨",n:"Denuncia Penal",s:"CPP Ley 1970 Arts. 225-230",req:"denuncia",
+p:"Redacta una DENUNCIA PENAL FORMAL ante la Fiscalía Departamental, conforme al CPP boliviano (Ley 1970). Formato: 'Señor Fiscal Departamental:', datos del denunciante con CI, narración fáctica detallada del hecho delictivo (fecha, hora, lugar, circunstancias), tipo penal del Código Penal (Ley 10426), pruebas disponibles, nombre del presunto autor, petitorio de inicio de investigación y firma."},
+{id:"p2",ico:"⚔",n:"Querella Penal",s:"CPP Ley 1970 Art. 78",req:"denuncia",
+p:"Redacta una QUERELLA PENAL conforme al Art. 78 del CPP boliviano (Ley 1970), con constitución en querellante, fundamento del tipo penal, petitorio de imputación y todas las formalidades requeridas."},
+{id:"p3",ico:"📑",n:"Recurso de Apelación Penal",s:"CPP Ley 1970 Arts. 394-404",req:"",
+p:"Redacta un RECURSO DE APELACIÓN INCIDENTAL en materia penal conforme al CPP boliviano (Ley 1970) Arts. 394-404. Formato: dirigido al Tribunal Departamental de Justicia, fundamentación de los agravios contra la resolución apelada, petitorio de revocatoria o modificación."},
+{id:"p4",ico:"🛑",n:"Excepción de Extinción de Acción Penal",s:"CPP Art. 133",req:"",
+p:"Redacta una EXCEPCIÓN DE EXTINCIÓN DE LA ACCIÓN PENAL por vencimiento del plazo máximo del proceso, conforme al Art. 133 del CPP boliviano, con fundamento en jurisprudencia del TCP sobre el derecho al juicio en plazo razonable."},
+]},
+{cat:"🏛️ Derecho Administrativo · Ley 2341", ico:"🏛️", items:[
+{id:"a1",ico:"🏛️",n:"Memorial Administrativo",s:"Ley 2341 · CPE Art. 24",req:"memorial",
+p:"Redacta un MEMORIAL ADMINISTRATIVO FORMAL conforme a la Ley 2341 de Procedimiento Administrativo de Bolivia. Formato oficial OBLIGATORIO: ciudad y fecha en letras, 'SEÑOR/A [CARGO EN MAYÚSCULAS]:' al inicio, identificación del peticionario con CI, sección 'I. ANTECEDENTES:' (hechos), sección 'II. FUNDAMENTO JURÍDICO:' (artículos de ley), sección 'III. PETITORIO:' numerado, cierre con 'Es justicia que espero merecer.' y 'Provéase.' y firmas."},
+{id:"a2",ico:"🔄",n:"Recurso de Revocatoria",s:"Ley 2341 Arts. 64-70",req:"revocatoria",
+p:"Redacta un RECURSO DE REVOCATORIA contra un acto administrativo, conforme a la Ley 2341 Arts. 64-70. Formato oficial: dirigido a la misma autoridad, exposición de agravios (errores de hecho y de derecho), artículos violados, petitorio de revocación del acto. Recordar: plazo 10 días hábiles desde notificación."},
+{id:"a3",ico:"⬆️",n:"Recurso Jerárquico",s:"Ley 2341 Arts. 65-70",req:"jerarquico",
+p:"Redacta un RECURSO JERÁRQUICO ante el superior jerárquico, conforme a la Ley 2341 Arts. 65-70, por denegatoria del recurso de revocatoria. Agravios ampliados y petitorio de revocación. Plazo: 10 días hábiles desde notificación de la resolución de revocatoria."},
+{id:"a4",ico:"🏘",n:"Memorial al Gobierno Municipal",s:"Ley 2341 · Ley 031",req:"memorial",
+p:"Redacta un MEMORIAL DIRIGIDO AL SEÑOR ALCALDE MUNICIPAL / DIRECTORA DE [ÁREA] del Gobierno Autónomo Municipal de [ciudad], solicitando licencia de funcionamiento o permiso de construcción, conforme a la Ley 2341 y normativa municipal. Formato oficial completo."},
+{id:"a5",ico:"⚡",n:"Recurso de Nulidad Administrativa",s:"Ley 2341 Art. 35",req:"memorial",
+p:"Redacta un RECURSO DE NULIDAD DE ACTO ADMINISTRATIVO por vicios de nulidad absoluta conforme al Art. 35 de la Ley 2341 boliviana. Con identificación precisa de los vicios (incompetencia, forma, objeto ilícito o imposible), fundamento y petitorio de nulidad absoluta."},
+]},
+{cat:"🛡️ Derecho Constitucional", ico:"🛡️", items:[
+{id:"cc1",ico:"🛡️",n:"Acción de Amparo Constitucional",s:"CPE Arts. 128-129 · Ley 254",req:"amparo",
+p:"Redacta una ACCIÓN DE AMPARO CONSTITUCIONAL ante el Tribunal Departamental de Justicia, conforme a la CPE 2009 Arts. 128-129 y la Ley 254 (Código Procesal Constitucional) Arts. 51-68. Formato: 'SEÑORES MAGISTRADOS DEL TRIBUNAL DEPARTAMENTAL DE JUSTICIA:', identificación del accionante, descripción precisa del acto u omisión lesiva, derechos fundamentales vulnerados (artículos CPE), inexistencia de otro recurso eficaz, petitorio y 'Es justicia que espero merecer.'"},
+{id:"cc2",ico:"🔓",n:"Acción de Libertad",s:"CPE Art. 125 · Ley 254",req:"libertad",
+p:"Redacta una ACCIÓN DE LIBERTAD (Hábeas Corpus) conforme al Art. 125 de la CPE boliviana y los Arts. 41-50 de la Ley 254. Urgente: identificación del detenido, lugar de detención, autoridad que dispuso la detención, ilegalidad de la detención, petitorio de presentación y liberación inmediata."},
+{id:"cc3",ico:"✅",n:"Acción de Cumplimiento",s:"CPE Art. 134 · Ley 254",req:"",
+p:"Redacta una ACCIÓN DE CUMPLIMIENTO conforme al Art. 134 de la CPE y Arts. 69-80 de la Ley 254, por omisión de autoridad en aplicar una norma legal imperativa. Formato completo con identificación de la norma incumplida, evidencia de la solicitud previa y petitorio."},
+{id:"cc4",ico:"🌍",n:"Acción Popular",s:"CPE Art. 135 · Ley 254",req:"",
+p:"Redacta una ACCIÓN POPULAR para defensa de derechos colectivos o difusos conforme al Art. 135 de la CPE boliviana y el Código Procesal Constitucional (Ley 254). Formato oficial completo."},
+]},
+{cat:"🏢 Derecho Comercial", ico:"🏢", items:[
+{id:"co1",ico:"🏢",n:"Constitución de SRL",s:"Cód. Comercio Arts. 195-216",req:"fundempresa",
+p:"Redacta la MINUTA DE CONSTITUCIÓN Y ESTATUTOS DE SOCIEDAD DE RESPONSABILIDAD LIMITADA (S.R.L.) conforme al Código de Comercio boliviano (DL 14379) Arts. 195-216 y los requisitos de FUNDEMPRESA. Incluye: denominación social, domicilio legal, objeto social detallado, capital social y aporte por socio (en bolivianos), administración y representación, junta de socios, quórum, distribución de utilidades, disolución, liquidación, y fecha con firmas de los socios fundadores."},
+{id:"co2",ico:"📖",n:"Estatutos Empresariales",s:"Cód. Comercio Arts. 195-216",req:"fundempresa",
+p:"Redacta ESTATUTOS COMPLETOS Y DETALLADOS para una empresa SRL conforme al Código de Comercio boliviano (DL 14379), con todos los artículos requeridos por FUNDEMPRESA para su inscripción."},
+{id:"co3",ico:"📩",n:"Carta de Cobro Extrajudicial",s:"Cód. Comercio Art. 804",req:"",
+p:"Redacta una CARTA FORMAL DE COBRO EXTRAJUDICIAL con intimación de pago, señalando el monto adeudado, plazo para pagar, intereses por mora y advertencia de inicio de acciones legales (civiles y/o penales por giro en descubierto) conforme a la legislación boliviana."},
+]},
+{cat:"🌿 Derechos Indígenas y Autonómico", ico:"🌿", items:[
+{id:"i1",ico:"🌿",n:"Solicitud de Consulta Previa",s:"CPE Arts. 30-32 · Conv. 169 OIT",req:"",
+p:"Redacta una SOLICITUD FORMAL DE CONSULTA PREVIA LIBRE E INFORMADA en favor de un pueblo indígena originario campesino boliviano del Gran Chaco tarijeño (Guaraní, Weenhayek o Tapiete), conforme al Art. 30 CPE 2009, el Convenio 169 de la OIT y la Ley 031 Marco de Autonomías. Formato de memorial administrativo oficial."},
+{id:"i2",ico:"🏔",n:"Memorial Derechos Territoriales",s:"CPE Arts. 293-296 · Ley 031",req:"",
+p:"Redacta un MEMORIAL DE DEFENSA DE DERECHOS TERRITORIALES INDÍGENAS para pueblos del Gran Chaco tarijeño (Guaraní, Weenhayek o Tapiete), conforme a la CPE 2009 Arts. 293-296, la Ley 031 Marco de Autonomías y el Convenio 169 OIT. Formato oficial de memorial dirigido a la autoridad competente."},
+]},
+];
+
+const TRAMS = [
+{cat:"📋 Trámites Civiles", ico:"📋", items:[
+{id:"t1",ico:"🏠",n:"Registro Propiedad (DDRR)",s:"Inscripción ante Derechos Reales",req:"reg-inmueble"},
+{id:"t2",ico:"📜",n:"Sucesión Hereditaria",s:"Declaratoria de herederos",req:"sucesion"},
+{id:"t3",ico:"🔑",n:"Contrato Arrendamiento",s:"Requisitos y trámite",req:"contrato-arr"},
+{id:"t4",ico:"📋",n:"Poder Notarial",s:"Ante notario de fe pública",req:"poder-notarial"},
+]},
+{cat:"👨‍👩‍👧 Trámites Familiares", ico:"👨‍👩‍👧", items:[
+{id:"t5",ico:"⚖",n:"Divorcio · Ley 603",s:"Juzgado de Familia o SEPDAVI",req:"divorcio"},
+{id:"t6",ico:"👶",n:"Asistencia Familiar",s:"Pensión de alimentos",req:"asistencia"},
+]},
+{cat:"💼 Trámites Laborales", ico:"💼", items:[
+{id:"t7",ico:"💼",n:"Registro Contrato Trabajo",s:"Ministerio de Trabajo (30 días)",req:"ctrabajo"},
+{id:"t8",ico:"⚖️",n:"Demanda Laboral",s:"Min. Trabajo / Juzgado Laboral",req:"dlaboral"},
+{id:"t9",ico:"📤",n:"Retiro Voluntario Justificado",s:"LGT Art. 16",req:"retiro"},
+]},
+{cat:"🚨 Trámites Penales", ico:"🚨", items:[
+{id:"t10",ico:"🚨",n:"Denuncia Penal",s:"Fiscalía Departamental · FELCC",req:"denuncia"},
+]},
+{cat:"🏛️ Trámites Administrativos", ico:"🏛️", items:[
+{id:"t11",ico:"🏛️",n:"Memorial Administrativo",s:"Ley 2341 · Cualquier entidad",req:"memorial"},
+{id:"t12",ico:"🔄",n:"Recurso de Revocatoria",s:"10 días hábiles desde notificación",req:"revocatoria"},
+{id:"t13",ico:"⬆️",n:"Recurso Jerárquico",s:"Ante el superior jerárquico",req:"jerarquico"},
+]},
+{cat:"🛡️ Trámites Constitucionales", ico:"🛡️", items:[
+{id:"t14",ico:"🛡️",n:"Acción de Amparo",s:"Tribunal Departamental · 3-5 días",req:"amparo"},
+{id:"t15",ico:"🔓",n:"Acción de Libertad",s:"Cualquier juzgado · Urgente 24h",req:"libertad"},
+]},
+{cat:"🏢 Trámites Comerciales", ico:"🏢", items:[
+{id:"t16",ico:"🏢",n:"FUNDEMPRESA (Matrícula empresa)",s:"Registro de Comercio",req:"fundempresa"},
+{id:"t17",ico:"📊",n:"Inscripción NIT en el SIN",s:"Número de Identificación Tributaria",req:"nit"},
+]},
+];
+
+/* ══════════════════════════════════
+   REQUIREMENTS DB
+══════════════════════════════════ */
+const RQ = {
+"reg-inmueble":{
+  t:"Registro de Propiedad en DDRR",cat:"Derecho Civil",area:"Derechos Reales",
+  desc:"Inscripción del derecho propietario sobre un bien inmueble ante la Oficina de Derechos Reales del municipio donde se ubica el inmueble.",
+  docs:["Escritura pública original firmada por el notario","Fotocopia legalizada de la escritura pública","Folio real actualizado (no mayor a 3 meses de antigüedad)","Plano de ubicación aprobado por el municipio","Certificado catastral municipal vigente","Comprobante de pago del IT (3% del valor de venta) en el SIN","Carta de pago del arancel de DDRR","CI vigente del propietario o de su representante legal","Poder notarial si actúa un representante","Minuta de transferencia firmada por ambas partes","Formulario de registro DDRR debidamente llenado"],
+  pasos:[{t:"Folio real actualizado en DDRR",s:"Debe tener menos de 3 meses. Si tiene hipoteca o gravamen, regule primero."},{t:"Firmar escritura ante notario",s:"Ambas partes presentes o representadas por apoderado notarial."},{t:"Pagar el IT (3%) en el SIN",s:"Con el valor de venta. Guardar el comprobante para DDRR."},{t:"Reunir el expediente completo",s:"Documentos originales + fotocopias legalizadas según lista."},{t:"Presentar en mesa de partes DDRR",s:"Solicitar número de trámite y cargo con sello y fecha."},{t:"Verificación por DDRR (7-10 días)",s:"Revisan cadena dominial, cargas y gravámenes del inmueble."},{t:"Retirar el nuevo folio real",s:"Con su nombre inscrito como propietario. Guárdelo en lugar seguro."}],
+  leyes:["Código Civil Arts. 1538-1547","Ley del Registro de Derechos Reales","Ley 843 (Impuesto a la Transferencia = 3%)","DS 27957"],
+  costo:"3% del valor de venta (IT) + Bs 150–300 arancel DDRR",plazo:"7 a 15 días hábiles",
+  oficina:"Oficina de Derechos Reales (DDRR) del municipio · Servicio de Impuestos Nacionales (SIN)"
+},
+"divorcio":{
+  t:"Divorcio / Desvinculación Conyugal",cat:"Derecho Familiar",area:"Ley 603",
+  desc:"Disolución del vínculo matrimonial conforme al Código de las Familias (Ley 603). Puede ser por mutuo acuerdo o contencioso.",
+  docs:["Certificado de matrimonio original del Registro Civil","CI vigente de ambos cónyuges","Certificados de nacimiento de los hijos (si los hubiera)","Inventario de bienes gananciales (inmuebles, vehículos, cuentas bancarias)","Acuerdo de guardia, custodia y régimen de visitas de hijos menores","Convenio de asistencia familiar (monto y periodicidad)","Certificado de domicilio o residencia","Poder notarial si actúa apoderado","Para mutuo acuerdo: convenio regulador firmado por ambas partes"],
+  pasos:[{t:"Asesoría jurídica y redacción",s:"Un abogado elabora la demanda o el convenio regulador según la modalidad."},{t:"Presentar en Juzgado de Familia",s:"Del domicilio del menor de edad o del último domicilio conyugal."},{t:"Admisión y notificación",s:"El juez admite y notifica al otro cónyuge en su domicilio real."},{t:"Audiencia de conciliación (obligatoria)",s:"El juez puede intentar la reconciliación. Para mutuo: ratificación del convenio."},{t:"Audiencia de juicio (si es contencioso)",s:"Pruebas, testigos y alegatos. El juez decide."},{t:"Sentencia de desvinculación",s:"Disuelve el vínculo. Puede apelarse en 10 días."},{t:"Inscripción en el Registro Civil",s:"La sentencia firme se inscribe. Desde ese momento surte efectos civiles."}],
+  leyes:["Ley 603 (Código de las Familias) Arts. 205-225","CPE Art. 63","DS 2366"],
+  costo:"Bs 300–800 (costos procesales + abogado). SEPDAVI: gratuito para personas sin recursos.",
+  plazo:"Mutuo acuerdo: 2–4 meses · Contencioso: 6–18 meses",
+  oficina:"Juzgado Público en Materia de Familia · SEPDAVI (Servicio Plurinacional de Asistencia a la Víctima)"
+},
+"asistencia":{
+  t:"Asistencia Familiar (Alimentos)",cat:"Derecho Familiar",area:"Ley 603 Arts. 109-139",
+  desc:"Pensión mensual que un progenitor paga para manutención, educación y salud de los hijos menores de edad.",
+  docs:["CI del padre o madre solicitante","Certificado de nacimiento del hijo/a beneficiario","Certificado de matrimonio o unión libre (si corresponde)","Boleta de pago o declaración de ingresos del obligado","Certificado de estudios del menor (si asiste a la escuela)","Facturas o recibos de gastos del menor (alimentación, salud, educación)","Certificado médico si el menor tiene necesidades especiales"],
+  pasos:[{t:"Presentar demanda en Juzgado de Familia",s:"Con todos los documentos. La Defensoría de la Niñez asiste gratuitamente."},{t:"Medida cautelar inmediata",s:"El juez puede fijar una pensión provisional desde la primera audiencia, sin esperar sentencia."},{t:"Notificación al obligado",s:"El padre/madre obligado es notificado en su domicilio."},{t:"Prueba de ingresos del obligado",s:"Ambas partes presentan documentos de ingresos. El juez evalúa proporcionalidad."},{t:"Audiencia y sentencia",s:"El juez fija el monto definitivo y la periodicidad de pago."},{t:"Ejecución",s:"Si no paga, se retiene directamente del salario (planilla del empleador)."}],
+  leyes:["Ley 603 Arts. 109-139","CPE Art. 60","Ley 2026 (Código Niño, Niña, Adolescente)"],
+  costo:"Proceso puede ser gratuito (Defensoría de la Niñez). Abogado privado: variable.",
+  plazo:"Medida cautelar: inmediata · Sentencia definitiva: 3–6 meses",
+  oficina:"Juzgado Público en Materia de Familia · Defensoría de la Niñez y Adolescencia"
+},
+"ctrabajo":{
+  t:"Registro de Contrato de Trabajo",cat:"Derecho Laboral",area:"LGT · Ministerio de Trabajo",
+  desc:"Todo contrato de trabajo debe registrarse en el Ministerio de Trabajo dentro de los 30 días de iniciada la relación laboral.",
+  docs:["CI del empleador o representante legal de la empresa","CI del trabajador","Contrato de trabajo firmado por ambas partes (3 ejemplares originales)","Formulario de registro del Ministerio de Trabajo (disponible en ventanilla)","Descripción del cargo y funciones","Salario acordado (no menor al SMN: Bs 2.362)"],
+  pasos:[{t:"Redactar el contrato de trabajo",s:"Incluir: cargo, salario, jornada (8h/día, 48h/sem), lugar, plazo."},{t:"Firmar 3 ejemplares originales",s:"Empleador y trabajador firman. El 3er ejemplar es para el Ministerio."},{t:"Presentar en el Ministerio de Trabajo",s:"Dentro de los 30 días de iniciada la relación. Gratuito."},{t:"Inscribir en la CNS",s:"El trabajador debe tener cobertura de salud desde el primer día de trabajo."},{t:"Inscribir en la AFP",s:"Afiliación al fondo de pensiones (Futuro de Bolivia o BBVA Previsión)."},{t:"Entregar copia firmada al trabajador",s:"El trabajador tiene derecho a su copia. Guárdenla ambos."}],
+  leyes:["Ley General del Trabajo Arts. 1-30","DS 23570 (Reglamento LGT)","DS 28699 (Inamovilidad laboral)","Ley 065 (Pensiones)"],
+  costo:"Registro en Ministerio de Trabajo: totalmente gratuito",
+  plazo:"Obligatorio dentro de los 30 días de inicio de la relación laboral",
+  oficina:"Ministerio de Trabajo y Previsión Social · Caja Nacional de Salud (CNS) · AFP"
+},
+"dlaboral":{
+  t:"Demanda Laboral por Despido Injustificado",cat:"Derecho Laboral",area:"LGT · Juzgado del Trabajo",
+  desc:"El trabajador despedido sin causa justificada tiene derecho a: desahucio (3 meses de salario), indemnización (1 mes/año trabajado), vacaciones y aguinaldo proporcionales.",
+  docs:["CI del trabajador demandante","Contrato de trabajo (si existe)","Boletas de pago de los últimos 3 meses","Liquidación entregada por el empleador","Carta de despido o notificación escrita","Nombres de testigos del despido con CI","Cálculo de beneficios: desahucio + indemnización + vacaciones + aguinaldo","NIT, razón social y domicilio del empleador"],
+  pasos:[{t:"Conciliación en Ministerio de Trabajo",s:"Obligatoria antes del juicio. El Inspector cita al empleador. Completamente gratuito."},{t:"Si no hay acuerdo: demanda judicial",s:"Ante el Juzgado del Trabajo y Seguridad Social del departamento."},{t:"Admisión y traslado al empleador",s:"El juez corre traslado. El empleador tiene plazo para responder."},{t:"Audiencia de conciliación judicial",s:"Segunda oportunidad de acuerdo ante el juez."},{t:"Etapa de prueba",s:"Testigos, documentos, peritos. Ambas partes prueban su posición."},{t:"Sentencia y ejecución",s:"Si el empleador no paga en 5 días, se embargan sus bienes."}],
+  leyes:["LGT Arts. 16, 55-87","DS 23570 (Reglamento LGT)","DS 28699 (Inamovilidad)","CPE Arts. 46-55"],
+  costo:"Conciliación en Min. Trabajo: gratuita. Proceso judicial: honorarios de abogado variables.",
+  plazo:"Conciliación: 15–30 días · Proceso judicial: 6–18 meses",
+  oficina:"Ministerio de Trabajo y Previsión Social · Juzgado del Trabajo y Seguridad Social"
+},
+"retiro":{
+  t:"Retiro Voluntario Justificado",cat:"Derecho Laboral",area:"LGT Art. 16",
+  desc:"Desvinculación iniciada por el trabajador por causas atribuibles al empleador. Otorga derecho a TODOS los beneficios, incluido el desahucio de 3 meses.",
+  docs:["CI del trabajador","Carta de retiro redactada con las causas justificadas","Documentos que prueban las causas del retiro (ej: falta de pago, maltratos documentados)","Boletas de pago de los últimos 3 meses"],
+  pasos:[{t:"Identificar causas justificadas del Art. 16 LGT",s:"Ej: falta de pago oportuno, traslado sin acuerdo, incumplimiento de obligaciones patronales."},{t:"Redactar y entregar carta de retiro",s:"Con sello de recibido del empleador (fecha y hora). Guardar copia."},{t:"Acudir al Ministerio de Trabajo",s:"Para registrar el retiro y solicitar asesoría gratuita sobre su liquidación."},{t:"Solicitar la liquidación completa",s:"Desahucio (3 meses) + indemnización (1 mes/año) + vacaciones + aguinaldo prop."},{t:"Si el empleador no paga: demanda judicial",s:"Ante el Juzgado del Trabajo para ejecución forzada de la liquidación."}],
+  leyes:["LGT Art. 16 (retiro voluntario justificado)","DS 23570 Art. 7","DS 110 (Aguinaldo)","DS 23871 (Bono de antigüedad)"],
+  costo:"Gratuito en Ministerio de Trabajo",
+  plazo:"La liquidación debe entregarse dentro de los 15 días de notificación",
+  oficina:"Ministerio de Trabajo y Previsión Social · Juzgado del Trabajo (si no hay acuerdo)"
+},
+"denuncia":{
+  t:"Denuncia Penal ante la Fiscalía",cat:"Derecho Penal",area:"CPP Ley 1970",
+  desc:"Comunicación formal de un hecho delictivo al Ministerio Público. Es gratuita, puede hacerse verbalmente o por escrito, y la Fiscalía DEBE recibirla.",
+  docs:["CI del denunciante","Narración detallada de los hechos (fecha, hora, lugar, circunstancias)","Nombre y datos del presunto autor (si los conoce)","Fotografías, videos, capturas de pantalla o documentos","Informe médico forense si hay lesiones corporales","Documentos que acrediten el daño (para delitos patrimoniales)","Nombres y datos de contacto de testigos"],
+  pasos:[{t:"Presentar en Fiscalía o FELCC",s:"Verbalmente o por escrito. La Fiscalía está obligada por ley a recibir toda denuncia."},{t:"Asignación de fiscal",s:"El Fiscal de Turno asume el caso y ordena las primeras diligencias."},{t:"Investigación preliminar",s:"La FELCC realiza pericias, levantamientos de prueba y requisas bajo dirección del Fiscal."},{t:"Imputación formal",s:"Si hay mérito, el Fiscal presenta imputación formal al Juez de Instrucción Penal."},{t:"Etapa preparatoria (6 meses max.)",s:"El Fiscal reúne toda la prueba. Plazo prorrogable solo por el Juez."},{t:"Acusación y juicio oral",s:"Con prueba suficiente, el Fiscal acusa ante el Tribunal de Sentencia."}],
+  leyes:["CPP Ley 1970 Arts. 225-230 (Denuncia)","Código Penal Ley 10426 (Tipos penales)","Ley 260 (Ministerio Público)"],
+  costo:"Totalmente gratuito. Si actúa como querellante: honorarios de abogado variables.",
+  plazo:"Investigación preliminar: 30–90 días · Proceso completo: 1–3 años",
+  oficina:"Fiscalía Departamental · FELCC (Fuerza Especial de Lucha Contra el Crimen) · FELCV (violencia género)"
+},
+"memorial":{
+  t:"Memorial Administrativo",cat:"Derecho Administrativo",area:"Ley 2341",
+  desc:"Escrito formal a una autoridad pública solicitando una acción o decisión. La autoridad tiene 20 días hábiles para responder; si no lo hace, opera el silencio administrativo positivo.",
+  docs:["CI vigente del peticionario","Nombre completo, cargo e institución de la autoridad destinataria","Número de expediente previo (si existe)","Descripción clara y específica de lo que solicita","Artículos legales que fundamentan su petición","Documentos probatorios de respaldo (copias legalizadas)","Domicilio real y domicilio procesal (para notificaciones)"],
+  pasos:[{t:"Identificar la autoridad competente",s:"Quién tiene competencia legal para resolver su petición específica."},{t:"Redactar con estructura formal boliviana",s:"Destinatario en mayúsculas → Antecedentes → Fundamento Jurídico → Petitorio."},{t:"Adjuntar documentos en orden",s:"Numere las páginas. Certifique las fotocopias si corresponde."},{t:"Presentar en mesa de partes",s:"Exija sello, fecha, hora y número de expediente. Conserve el cargo."},{t:"Seguimiento del expediente",s:"La autoridad tiene 20 días hábiles para responder."},{t:"Silencio administrativo positivo",s:"Si no responde en 20 días hábiles, se entiende aceptada su petición (Art. 64 Ley 2341)."}],
+  leyes:["Ley 2341 (Procedimiento Administrativo) Arts. 1-70","DS 27113 (Reglamento de la Ley 2341)","CPE Art. 24 (Derecho de Petición)"],
+  costo:"Gratuito (posibles tasas mínimas según la entidad)",
+  plazo:"La autoridad debe responder en máximo 20 días hábiles",
+  oficina:"Mesa de Partes / Ventanilla de atención al ciudadano de la entidad pública correspondiente"
+},
+"revocatoria":{
+  t:"Recurso de Revocatoria",cat:"Derecho Administrativo",area:"Ley 2341 Art. 64",
+  desc:"Solicitud a la MISMA autoridad para que revise y corrija un acto que le perjudica. ⚠ PLAZO FATAL: 10 días hábiles desde la notificación del acto.",
+  docs:["CI del recurrente","Copia de la resolución o acto administrativo impugnado","Copia de la notificación oficial del acto","Exposición detallada de los agravios (errores de hecho o de derecho)","Pruebas documentales que sustentan la impugnación","Domicilio procesal para notificaciones","⚠ PRESENTAR DENTRO DE LOS 10 DÍAS HÁBILES"],
+  pasos:[{t:"Recibir la notificación oficial",s:"El plazo de 10 días hábiles empieza desde la notificación. No desde que se entera informalmente."},{t:"Analizar los agravios",s:"Errores de hecho (datos incorrectos) o de derecho (leyes mal aplicadas o no aplicadas)."},{t:"Redactar y presentar el recurso",s:"Dentro del plazo fatal de 10 días hábiles. Ante la misma autoridad que dictó el acto."},{t:"La autoridad resuelve en 20 días",s:"Puede confirmar, modificar o revocar el acto impugnado."},{t:"Si deniega: Recurso Jerárquico",s:"Ante el superior jerárquico. Plazo: 10 días desde la notificación de la resolución de revocatoria."}],
+  leyes:["Ley 2341 Arts. 64-70","DS 27113 (Reglamento)","CPE Art. 24"],
+  costo:"Gratuito",
+  plazo:"⚠ Presentación: 10 días hábiles desde notificación · Resolución: 20 días hábiles",
+  oficina:"La misma entidad pública que emitió el acto administrativo impugnado"
+},
+"jerarquico":{
+  t:"Recurso Jerárquico",cat:"Derecho Administrativo",area:"Ley 2341 Art. 65",
+  desc:"Recurso ante el SUPERIOR JERÁRQUICO cuando el recurso de revocatoria fue rechazado o no resuelto. Agota definitivamente la vía administrativa.",
+  docs:["CI del recurrente","Resolución del recurso de revocatoria (o constancia de silencio administrativo negativo)","Acto administrativo original impugnado","Copia de las notificaciones de ambos actos","Agravios ampliados y nuevas pruebas si las hubiera","⚠ PLAZO: 10 días hábiles desde notificación de la resolución de revocatoria"],
+  pasos:[{t:"Verificar que agotó la revocatoria",s:"El recurso jerárquico solo procede después del de revocatoria. No se puede saltear."},{t:"Identificar al superior jerárquico",s:"El jefe inmediato superior de la autoridad que dictó el acto original."},{t:"Presentar el recurso jerárquico",s:"Dentro de los 10 días hábiles desde la notificación de la resolución de revocatoria."},{t:"El superior resuelve en 20 días",s:"Su decisión es definitiva en la vía administrativa. No hay más recursos administrativos."},{t:"Si deniega: vía judicial",s:"Puede presentar demanda contencioso-administrativa ante el Tribunal Supremo de Justicia."}],
+  leyes:["Ley 2341 Arts. 65-70","DS 27113","Ley 620 (Proceso Contencioso Administrativo)"],
+  costo:"Gratuito",
+  plazo:"⚠ 10 días hábiles para presentar · 20 días hábiles para resolución",
+  oficina:"Autoridad superior jerárquica de la entidad administrativa correspondiente"
+},
+"amparo":{
+  t:"Acción de Amparo Constitucional",cat:"Derecho Constitucional",area:"CPE Arts. 128-129",
+  desc:"Protege derechos fundamentales vulnerados por actos ilegales de autoridades o particulares. Resolución en 3-5 días (procedimiento sumarísimo).",
+  docs:["CI del accionante","Descripción detallada del acto u omisión lesiva","Identificación precisa de la autoridad demandada y su cargo","Derechos fundamentales vulnerados (artículos específicos de la CPE 2009)","Pruebas documentales del acto lesivo (resoluciones, notificaciones, cartas)","Declaración de que no existe otro recurso legal igual de eficaz y urgente","Domicilio procesal para notificaciones urgentes"],
+  pasos:[{t:"Presentar ante el Tribunal Departamental",s:"Cualquier Sala Civil o Penal. Sin restricción de materia. Cualquier día, incluso feriado."},{t:"Audiencia señalada en 48 horas",s:"El Tribunal debe señalar audiencia obligatoriamente dentro de las 48 horas."},{t:"Notificación urgente a la autoridad",s:"La autoridad demandada es notificada y debe informar sobre el acto en 24 horas."},{t:"Audiencia pública",s:"Ambas partes exponen. El accionante prueba la vulneración; la autoridad fundamenta el acto."},{t:"Resolución en 24 horas",s:"El Tribunal resuelve en la misma audiencia o dentro de las 24 horas siguientes."},{t:"Revisión automática ante el TCP",s:"Toda resolución de amparo es enviada y revisada de oficio por el TCP."}],
+  leyes:["CPE Arts. 128-129","Ley 254 (CPC) Arts. 51-68","Ley 027 (Ley del TCP)"],
+  costo:"Totalmente gratuito. Honorarios de abogado: opcionales.",
+  plazo:"Resolución en 3–5 días hábiles (procedimiento sumarísimo de máxima urgencia)",
+  oficina:"Tribunal Departamental de Justicia (cualquier Sala Civil o Penal)"
+},
+"libertad":{
+  t:"Acción de Libertad (Hábeas Corpus)",cat:"Derecho Constitucional",area:"CPE Art. 125",
+  desc:"La acción constitucional MÁS URGENTE. Protege la libertad personal ante detención ilegal. Puede presentarla CUALQUIER PERSONA y CUALQUIER JUEZ debe recibirla.",
+  docs:["Nombre completo del detenido o procesado","Lugar exacto donde se encuentra la persona detenida","Nombre y cargo de la autoridad que dispuso la detención","Circunstancias de cómo ocurrió la detención","CI del accionante (puede ser familiar, amigo, abogado o cualquier persona)","⚠ NO REQUIERE FORMALIDADES — puede presentarse verbalmente"],
+  pasos:[{t:"Presentar ante CUALQUIER juez del país",s:"Sin importar su competencia, materia ni territorialidad. De día, de noche o en feriado."},{t:"El juez señala audiencia INMEDIATAMENTE",s:"No puede negarse. La audiencia debe fijarse en el acto, incluso de madrugada."},{t:"Notificación al detentor",s:"La autoridad que tiene a la persona debe presentarla ante el juez."},{t:"Audiencia en el lugar de detención o en sala",s:"Si es necesario, el juez se traslada al lugar donde está el detenido."},{t:"Resolución en la misma audiencia",s:"El juez ordena liberación inmediata o valida la detención legal con fundamento."},{t:"Revisión automática ante el TCP",s:"Toda resolución de acción de libertad es revisada de oficio por el TCP."}],
+  leyes:["CPE Art. 125 (Acción de Libertad)","Ley 254 (CPC) Arts. 41-50"],
+  costo:"Totalmente gratuito. NO requiere abogado.",
+  plazo:"Resolución en 24–48 horas. Es la acción de mayor urgencia del ordenamiento boliviano.",
+  oficina:"Cualquier Juzgado o Tribunal de Bolivia (sin restricción de ningún tipo)"
+},
+"fundempresa":{
+  t:"Matrícula de Comercio FUNDEMPRESA",cat:"Derecho Comercial",area:"Código de Comercio",
+  desc:"Registro obligatorio para el funcionamiento legal de toda empresa en Bolivia. Sin matrícula de comercio no puede operar legalmente ni emitir facturas.",
+  docs:["CI del propietario o de los socios fundadores","Escritura pública de constitución protocolizada ante notario (para SRL y SA)","NIT del Servicio de Impuestos Nacionales","Licencia de funcionamiento del Gobierno Municipal Autónomo","Estatutos y acta de fundación de la empresa","Pago del arancel de inscripción (según capital declarado)","Formulario de inscripción FUNDEMPRESA (disponible en www.fundempresa.com.bo)","Para SA: publicación de edicto en periódico de circulación nacional"],
+  pasos:[{t:"Verificar disponibilidad del nombre",s:"En fundempresa.com.bo · Sistema en línea gratuito. El nombre debe ser único a nivel nacional."},{t:"Elaborar estatutos y minuta con abogado",s:"Cumplir todos los requisitos del Código de Comercio DL 14379."},{t:"Protocolizar ante notario de fe pública",s:"Firma de la escritura de constitución. El notario la registra en su protocolo."},{t:"Tramitar el NIT en el SIN",s:"En impuestos.gob.bo o presencialmente. Es gratuito."},{t:"Obtener licencia de funcionamiento municipal",s:"En el Gobierno Autónomo Municipal del domicilio legal de la empresa."},{t:"Inscribirse en FUNDEMPRESA",s:"Online o presencial. Pagar el arancel según el capital social declarado."},{t:"Obtener la matrícula de comercio",s:"El documento que acredita la empresa legalmente ante el Estado boliviano."}],
+  leyes:["Código de Comercio DL 14379 Arts. 1-218","Ley 516 de Inversiones","DS 26215 (FUNDEMPRESA)","Ley 843 (Régimen Tributario)"],
+  costo:"Arancel FUNDEMPRESA: Bs 500–5.000 según capital + Notaría: Bs 300–800",
+  plazo:"7–15 días hábiles (trámite completo con todos los documentos)",
+  oficina:"FUNDEMPRESA (fundempresa.com.bo) · Notaría de Fe Pública · SIN · Gobierno Municipal Autónomo"
+},
+"poder-notarial":{
+  t:"Poder Notarial",cat:"Derecho Notarial",area:"Ley 483 del Notariado",
+  desc:"Documento que autoriza a otra persona (apoderado) para actuar en nombre del poderdante en actos jurídicos específicos o en general.",
+  docs:["CI original y vigente del poderdante (quien otorga el poder)","CI del apoderado (fotocopia es suficiente)","Descripción clara y específica de los actos que se autoriza realizar","Para poderes desde el extranjero: documento con Apostilla y traducción oficial al español","Si el poder es para menores: CI y autorización de ambos padres"],
+  pasos:[{t:"Ir a la notaría con el CI original",s:"No necesita cita previa en la mayoría de notarías bolivianas. Es un trámite rápido."},{t:"Indicar al notario los actos a autorizar",s:"Sea específico: compraventa de X inmueble, cobro de salarios, representación judicial, etc."},{t:"Firma del poderdante ante el notario",s:"Solo el poderdante debe estar presente. El notario da fe del acto."},{t:"Protocolización y número de instrumento",s:"El notario registra el poder en su protocolo y le asigna número único."},{t:"Entrega del testimonio",s:"Recibe el testimonio (tantas copias como necesite). Puede solicitar más copias después."}],
+  leyes:["Código Civil Arts. 804-826","Ley 483 del Notariado Plurinacional","DS 0048 (Reglamento del Notariado)"],
+  costo:"Bs 150–400 según tipo y complejidad del poder",
+  plazo:"Mismo día o máximo 24 horas",
+  oficina:"Notaría de Fe Pública (cualquier notaría boliviana habilitada)"
+},
+"sucesion":{
+  t:"Sucesión Hereditaria",cat:"Derecho Civil",area:"Código Civil Arts. 1000-1120",
+  desc:"Proceso judicial para transferir los bienes, derechos y obligaciones del fallecido (causante) a sus herederos legales o testamentarios.",
+  docs:["Certificado de defunción del causante (Registro Civil)","CI de todos los herederos","Certificados de nacimiento que acrediten el parentesco con el causante","Certificado de matrimonio si hay cónyuge sobreviviente","Testamento protocolizado si existe","Folio real actualizado de los inmuebles","Títulos de propiedad de bienes muebles (RUAT para vehículos)","Extractos bancarios y certificados de acciones","Declaración del Impuesto a la Herencia (IT = 1% sobre excedente de Bs 20.000)"],
+  pasos:[{t:"Designar abogado y reunir documentos",s:"El abogado verifica la cadena familiar y el inventario de bienes."},{t:"Presentar demanda al Juzgado Civil",s:"Del último domicilio conocido del causante en Bolivia."},{t:"Publicación de edictos (3 veces)",s:"En un periódico de circulación nacional, para notificar a posibles herederos desconocidos."},{t:"Audiencia de posesión hereditaria",s:"El juez posesiona a los herederos en los bienes de la herencia."},{t:"Inventario y avalúo de bienes",s:"Se listan y valoran todos los bienes para la división."},{t:"División y partición proporcional",s:"Según la ley (cuotas hereditarias) o según el testamento."},{t:"Inscripción en los registros",s:"DDRR (inmuebles), RUAT (vehículos), SIN (impuesto herencia), cuentas bancarias."}],
+  leyes:["Código Civil Arts. 1000-1120","Ley 843 (IT Herencia = 1%)","CPE Art. 56"],
+  costo:"Tasas judiciales: Bs 200–500 · Abogado: variable · IT herencia: 1% del excedente de Bs 20.000",
+  plazo:"6 a 18 meses según la complejidad y número de bienes",
+  oficina:"Juzgado Civil · Derechos Reales (DDRR) · SIN · Notaría · RUAT (vehículos)"
+},
+"contrato-arr":{
+  t:"Contrato de Arrendamiento",cat:"Derecho Civil",area:"Código Civil · Ley 351",
+  desc:"Contrato para el uso temporal de un inmueble a cambio de un canon mensual. Se recomienda protocolizarlo ante notario.",
+  docs:["CI de arrendador y arrendatario","Folio real del inmueble (recomendable para verificar propiedad)","Monto del alquiler acordado y día de pago","Plazo del contrato (inicio y fin)","Monto del depósito de garantía (máximo 2 meses per Ley 351)","Condiciones de uso y mantenimiento del inmueble"],
+  pasos:[{t:"Negociar las condiciones",s:"Monto, plazo, depósito, servicios incluidos, mascotas, subarrendamiento."},{t:"Redactar el contrato",s:"Con todas las cláusulas de la Ley 351 sobre arrendamiento."},{t:"Firmar ante testigos o notario",s:"Se recomienda protocolización notarial para mayor seguridad jurídica."},{t:"Registro si corresponde",s:"Para contratos mayores a 1 año, se puede registrar en el SIN."},{t:"Entregar copia a cada parte",s:"Arrendador y arrendatario retienen una copia original firmada."}],
+  leyes:["Código Civil Arts. 685-732","Ley 351 de Arrendamiento de Bienes Inmuebles","Ley 247"],
+  costo:"Protocolización notarial: Bs 200–500",
+  plazo:"Inmediato (si no hay protocolización notarial)",
+  oficina:"Notaría de Fe Pública · SIN (si se registra)"
+},
+"nit":{
+  t:"Inscripción NIT en el SIN",cat:"Derecho Tributario",area:"SIN · Ley 2492",
+  desc:"Número de Identificación Tributaria. Gratuito y necesario para toda actividad económica en Bolivia. Se tramita el mismo día.",
+  docs:["Personas naturales: CI vigente + comprobante de domicilio + detalle de actividad económica","Empresas: escritura de constitución protocolizada + CI del representante legal","Factura de servicio básico del domicilio fiscal (no mayor a 3 meses)"],
+  pasos:[{t:"Ingresar a impuestos.gob.bo o ir a una oficina SIN",s:"Con los documentos originales. No se requiere cita previa."},{t:"Completar el formulario de inscripción",s:"Datos personales, actividad económica, domicilio fiscal."},{t:"Verificación del domicilio fiscal",s:"El SIN puede hacer una visita de verificación del domicilio."},{t:"Obtener el NIT y certificado de inscripción",s:"Se emite el mismo día o máximo en 48 horas."}],
+  leyes:["Ley 2492 Código Tributario Arts. 76-83","Ley 843 (Régimen Tributario)","DS 24603"],
+  costo:"Totalmente gratuito",
+  plazo:"Mismo día o máximo 24-48 horas",
+  oficina:"Servicio de Impuestos Nacionales (SIN) · impuestos.gob.bo (en línea)"
+}
+};
+
+/* ══════════════════════════════════
+   JURISPRUDENCIA DB
+══════════════════════════════════ */
+const JP = [
+{id:"j1",tr:"tcp",num:"SCP 0359/2023-S4",area:"Derecho Laboral",
+t:"Despido sin proceso previo vulnera la estabilidad laboral (CPE Arts. 46-49)",
+r:"El TCP determinó que todo despido requiere proceso previo con derecho a defensa. El despido intempestivo sin causa justificada vulnera los Arts. 46 y 49 CPE y activa el derecho a reincorporación inmediata o el pago de los beneficios.",
+ratio:"La estabilidad laboral es un derecho constitucional irrenunciable. El empleador debe demostrar la causa justificada del despido.",
+cita:"CPE Arts. 46-49; LGT Art. 16; DS 28699"},
+{id:"j2",tr:"tcp",num:"SCP 0144/2022-S2",area:"Derecho Penal",
+t:"Detención preventiva excesiva viola el derecho a la libertad y al juicio previo",
+r:"La detención preventiva que supera los plazos del CPP sin resolución constituye persecución indebida y procesamiento indebido. El TCP ordenó la cesación inmediata de la medida.",
+ratio:"La detención preventiva superior a 18 meses sin acusación o 36 meses sin sentencia vulnera el CPE Art. 125 y CPP Art. 239.",
+cita:"CPE Art. 125; CPP Arts. 239-240; Ley 254 Arts. 41-50"},
+{id:"j3",tr:"tcp",num:"SCP 1275/2021-S1",area:"Derecho a la Salud",
+t:"Negativa de atención médica de emergencia vulnera el derecho a la vida",
+r:"El TCP estableció que la atención médica de urgencias es un derecho constitucional que no puede condicionarse al pago previo ni a la afiliación al sistema de salud. La negativa es inconstitucional.",
+ratio:"El derecho a la salud en urgencias es de aplicación inmediata. Prevalece sobre consideraciones económicas o de afiliación.",
+cita:"CPE Arts. 18, 35-37; Ley 475 de Prestaciones de Salud Integral"},
+{id:"j4",tr:"tcp",num:"SCP 0413/2022-S4",area:"Derecho Familiar",
+t:"El interés superior del niño es el criterio rector en decisiones de guardia y custodia",
+r:"En todos los procesos de guardia y custodia, el juzgador debe privilegiar el interés superior del niño sobre las pretensiones de los progenitores. Se deben considerar el vínculo afectivo, las condiciones de vida y la opinión del menor.",
+ratio:"El CPE Art. 60 establece la prioridad del interés de la niñez. La decisión de custodia se basa en el bienestar integral del menor.",
+cita:"CPE Art. 60; Ley 603 Arts. 215-220; Ley 2026 (CNNA)"},
+{id:"j5",tr:"tcp",num:"SCP 0892/2023-S3",area:"Derecho a la Propiedad",
+t:"El despojo ilegítimo de propiedad activa la acción de amparo constitucional",
+r:"La acción de amparo procede ante despojo ilegal de bien inmueble cuando no existe otra vía legal igual de eficaz y urgente. El derecho propietario es inviolable.",
+ratio:"El CPE Art. 56 garantiza el derecho a la propiedad privada. El despojo ilegal activa el amparo constitucional como vía idónea.",
+cita:"CPE Arts. 56, 128-129; Ley 254 Arts. 51-68"},
+{id:"j6",tr:"tsj",num:"AS 547/2023",area:"Derecho Laboral",
+t:"El cálculo de beneficios incluye todos los componentes salariales habituales",
+r:"Para calcular indemnización y desahucio deben incluirse todos los componentes habituales del salario mensual: bonos permanentes, incentivos regulares y cualquier suma percibida mensualmente. No se limita al SMN.",
+ratio:"El salario base de cálculo de beneficios incluye toda remuneración habitual y no puede limitarse al salario mínimo nacional.",
+cita:"LGT Arts. 19, 55-57; DS 23570 Art. 11; DS 24067"},
+{id:"j7",tr:"tsj",num:"AS 212/2022",area:"Derecho Civil",
+t:"La usucapión requiere posesión continua, pública y pacífica por 10 años a título de dueño",
+r:"El TSJ confirmó que la posesión temporal, interrumpida, clandestina o precaria no da lugar a usucapión. La mera tolerancia del propietario no constituye posesión hábil para prescribir.",
+ratio:"Deben acreditarse inequívocamente 10 años de posesión a título de dueño, de forma pública, continua y sin violencia.",
+cita:"Código Civil Arts. 134-148; Ley 247 (Regularización)"},
+{id:"j8",tr:"tsj",num:"AS 891/2023",area:"Derecho Familiar",
+t:"La asistencia familiar se calcula sobre ingresos reales demostrados del obligado",
+r:"El TSJ estableció que la pensión de asistencia familiar debe fijarse en función de los ingresos reales del obligado y las necesidades efectivas del menor. El mínimo debe garantizar educación, salud y alimentación.",
+ratio:"La pensión es proporcional a los ingresos del obligado y las necesidades del beneficiario. No puede fijarse arbitrariamente.",
+cita:"Ley 603 Arts. 109-139; CPE Art. 60"},
+{id:"j9",tr:"tcp",num:"SCP 0078/2023-S2",area:"Derechos Indígenas",
+t:"La consulta previa es obligatoria en territorios indígenas bajo sanción de nulidad absoluta",
+r:"El TCP reafirmó que la consulta previa libre e informada es obligatoria para todo proyecto de inversión, norma o acto que afecte territorios indígenas. Su omisión vicia el acto de nulidad absoluta.",
+ratio:"La consulta previa (CPE Art. 30 y Convenio 169 OIT) es un derecho colectivo de aplicación directa e inmediata.",
+cita:"CPE Arts. 30-32; Convenio 169 OIT; Ley 031 Marco de Autonomías"},
+{id:"j10",tr:"tdj",num:"TDJ-TAR 0088/2023",area:"Derecho Administrativo",
+t:"El silencio administrativo positivo opera automáticamente tras 20 días hábiles sin respuesta",
+r:"El TDJ de Tarija confirmó que la falta de respuesta de la autoridad administrativa en 20 días hábiles activa el silencio administrativo positivo, entendiendo la petición como aceptada de pleno derecho.",
+ratio:"La Ley 2341 obliga a resolver en 20 días hábiles. El incumplimiento activa el silencio administrativo positivo como garantía del administrado.",
+cita:"Ley 2341 Arts. 64-70; DS 27113; CPE Art. 24"},
+{id:"j11",tr:"tcp",num:"SCP 0512/2022-S1",area:"Derecho Constitucional",
+t:"La acción de cumplimiento exige demostrar la solicitud previa a la autoridad",
+r:"El TCP aclaró que la acción de cumplimiento requiere: identificar la norma incumplida, acreditar la solicitud previa a la autoridad y demostrar que no cumplió en plazo razonable. No procede ante normas de aplicación discrecional.",
+ratio:"La acción de cumplimiento tutela el cumplimiento de normas imperativas. La discrecionalidad no excusa el incumplimiento de mandatos legales expresos.",
+cita:"CPE Art. 134; Ley 254 Arts. 69-80"},
+{id:"j12",tr:"tsj",num:"AS 334/2022",area:"Derecho Penal",
+t:"El plazo de la etapa preparatoria no puede extenderse indefinidamente sin acusación",
+r:"La etapa preparatoria tiene un plazo máximo de 6 meses, prorrogable solo por el Juez a pedido fundado del Fiscal. La superación injustificada de los plazos activa la excepción de extinción de la acción penal.",
+ratio:"El derecho al juicio en plazo razonable incluye la etapa preparatoria. La mora del Ministerio Público activa la extinción de la acción.",
+cita:"CPP Arts. 130, 133, 300-301; CPE Art. 115"},
+{id:"j13",tr:"tcp",num:"SCP 0231/2023-S4",area:"Derecho Educativo",
+t:"La expulsión de estudiante sin proceso disciplinario previo es inconstitucional",
+r:"Toda sanción que implique separación de una institución educativa requiere proceso disciplinario previo con derecho a defensa, notificación y posibilidad de impugnación. La expulsión sumaria vulnera el CPE.",
+ratio:"El derecho a la educación (CPE Art. 17) y el debido proceso (CPE Art. 115) rigen los procedimientos disciplinarios educativos.",
+cita:"CPE Arts. 17, 115; Ley 070 (Avelino Siñani - Elizardo Pérez)"},
+{id:"j14",tr:"tsj",num:"AS 788/2023",area:"Derecho Comercial",
+t:"La responsabilidad en SRL se limita al capital aportado salvo fraude probado",
+r:"Los socios de una SRL no responden con su patrimonio personal por las obligaciones sociales, salvo cuando se acredita fraude, simulación o abuso de la personalidad jurídica debidamente probados ante el juez.",
+ratio:"El velo societario solo puede levantarse ante fraude o simulación probados. La insolvencia por sí sola no habilita el levantamiento del velo.",
+cita:"Código de Comercio Arts. 195-216; Ley 2495"},
+{id:"j15",tr:"tcp",num:"SCP 1103/2021-S3",area:"Derecho al Agua",
+t:"El acceso al agua potable es un derecho fundamental inderogable",
+r:"El TCP reconoció el derecho humano al agua y al saneamiento básico como derechos fundamentales autónomos. La suspensión sin causa legal ni proceso vulnera el derecho a la vida digna.",
+ratio:"El Art. 20 CPE consagra el derecho universal al agua. Prevalece sobre consideraciones económicas o comerciales.",
+cita:"CPE Arts. 16, 20; Ley 2066 de Agua; OG N°15 PIDESC"}
+];
+
+/* ══════════════════════════════════
+   STATE
+══════════════════════════════════ */
+let hist=[], gen=false, sbTab=0, selId=null;
+let rpOpen=false, rpTab=0;
+let jpTrib='all';      // desktop juris filter
+let jpTribM='all';     // mobile juris filter
+let chkd={};           // doc checklist state
+
+/* ══════════════════════════════════
+   INIT
+══════════════════════════════════ */
+document.getElementById('ctxF').value = new Date().toISOString().split('T')[0];
+renderSB();
+renderJP();
+renderJPM();
+setHint();
+window.addEventListener('resize', setHint);
+
+function setHint(){
+  const el=document.getElementById('wHint');
+  if(!el) return;
+  const m = window.innerWidth <= 850;
+  el.innerHTML = m
+    ? `Use los botones de abajo para navegar:<br>
+       <div class="w-pill-row" style="margin-top:6px">
+         <span class="w-pill" onclick="mNav(1)">📄 Documentos</span>
+         <span class="w-pill" onclick="mNav(2)">✅ Requisitos</span>
+         <span class="w-pill" onclick="mNav(3)">⚖ Jurisprudencia</span>
+       </div>`
+    : `<b>Seleccione una categoría</b> del menú izquierdo para ver los documentos disponibles, o escriba su consulta directamente abajo.`;
+}
+
+/* ══════════════════════════════════
+   SIDEBAR RENDER — ACCORDION
+══════════════════════════════════ */
+function renderSB(q=''){
+  const data = sbTab===0 ? DOCS : TRAMS;
+  const ql = q.toLowerCase();
+  let h = '';
+
+  data.forEach((cat, ci)=>{
+    const items = cat.items.filter(i => !ql || i.n.toLowerCase().includes(ql) || (i.s && i.s.toLowerCase().includes(ql)));
+    if(!items.length) return;
+    // First cat open by default; or any that has the selected item; or when searching
+    const open = ci===0 || !!ql || items.some(i=>i.id===selId);
+    h += `<div class="acc">
+      <div class="acc-hdr${open?' open':''}" onclick="toggleAcc(this)">
+        <span class="acc-ico">${cat.ico}</span>
+        <span class="acc-lbl">${cat.cat}</span>
+        <span class="acc-cnt">${items.length}</span>
+        <span class="acc-arr">▼</span>
+      </div>
+      <div class="acc-body${open?' open':''}">`;
+
+    items.forEach(item=>{
+      const on = selId===item.id ? ' on' : '';
+      if(sbTab===0){
+        h += `<div class="di${on}" id="di_${item.id}" onclick="selDoc('${item.id}','${ej(item.p||'')}','${item.req||''}')">
+          <span class="di-ico">${item.ico}</span>
+          <div class="di-info">
+            <div class="di-name">${item.n}</div>
+            ${item.s ? `<div class="di-sub">${item.s}</div>` : ''}
+          </div>
+          ${item.req ? '<span class="di-badge">REQ</span>' : ''}
+        </div>`;
+      } else {
+        h += `<div class="di${on}" id="dit_${item.id}" onclick="selTram('${item.id}','${item.req||''}','${ej(item.n)}')">
+          <span class="di-ico">${item.ico}</span>
+          <div class="di-info">
+            <div class="di-name">${item.n}</div>
+            ${item.s ? `<div class="di-sub">${item.s}</div>` : ''}
+          </div>
+          ${item.req ? '<span class="di-badge">INFO</span>' : ''}
+        </div>`;
+      }
+    });
+    h += '</div></div>';
+  });
+
+  const out = h || `<div style="padding:20px;color:var(--muted);font-size:13px;text-align:center;font-style:italic">Sin resultados para "<em>${esc(q)}</em>"</div>`;
+  ['sbBody','mSbBody'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.innerHTML = out;
+  });
+}
+
+/* The KEY fix: onclick passes 'this' directly, no ID lookup at all */
+function toggleAcc(hdr){
+  const body = hdr.nextElementSibling;
+  if(!body) return;
+  hdr.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+function swTab(i, el){
+  sbTab = i;
+  document.querySelectorAll('.sb-tabs').forEach(wrap=>{
+    wrap.querySelectorAll('.sb-tab').forEach((t,j)=>t.classList.toggle('on', j===i));
+  });
+  renderSB(document.getElementById('sbQ')?.value || '');
+}
+
+/* ══════════════════════════════════
+   DOC / TRAM SELECTION
+══════════════════════════════════ */
+function selDoc(id, prompt, req){
+  selId = id;
+  document.querySelectorAll('.di').forEach(e=>e.classList.remove('on'));
+  document.querySelectorAll(`#di_${id}`).forEach(e=>e.classList.add('on'));
+  const inp = document.getElementById('inp');
+  inp.value = prompt;
+  aResize(inp);
+  const mobile = window.innerWidth <= 850;
+  if(mobile){
+    mNav(0); // Go back to chat
+  } else {
+    inp.focus();
+    if(req && RQ[req]){
+      showRQ(req);           // showRQ already calls swRP(0) internally
+      if(!rpOpen) toggleRP();
+    }
+  }
+}
+
+function selTram(id, req, name){
+  selId = id;
+  document.querySelectorAll('.di').forEach(e=>e.classList.remove('on'));
+  document.querySelectorAll(`#dit_${id}`).forEach(e=>e.classList.add('on'));
+  const mobile = window.innerWidth <= 850;
+  if(mobile){
+    if(req && RQ[req]){
+      showRQ(req);
+      mNav(2); // Open requisitos panel on mobile
+    } else {
+      mNav(0);
+      qk(`¿Cuáles son todos los requisitos y pasos para tramitar: ${name} en Bolivia?`);
+    }
+    return;
+  }
+  // Desktop
+  if(req && RQ[req]){
+    showRQ(req);           // showRQ already calls swRP(0) internally
+    if(!rpOpen) toggleRP();
+  } else {
+    qk(`¿Cuáles son todos los requisitos y pasos para tramitar: ${name} en Bolivia?`);
+  }
+}
+
+/* ══════════════════════════════════
+   RIGHT PANEL
+══════════════════════════════════ */
+function toggleRP(){
+  rpOpen = !rpOpen;
+  document.getElementById('rp').classList.toggle('hidden', !rpOpen);
+  document.getElementById('btnRP').classList.toggle('on', rpOpen);
+}
+
+function swRP(i){
+  rpTab = i;
+  [0,1].forEach(j=>{
+    document.getElementById('rpTab'+j)?.classList.toggle('on', j===i);
+    document.getElementById('rpPane'+j)?.classList.toggle('on', j===i);
+  });
+}
+
+/* ══════════════════════════════════
+   REQUIREMENTS CARD
+══════════════════════════════════ */
+function showRQ(key){
+  const r = RQ[key];
+  if(!r) return;
+  if(!chkd[key]) chkd[key] = {};
+  const ck = chkd[key];
+  const done = r.docs.filter((_,i)=>ck[i]).length;
+  const pct = Math.round(done/r.docs.length*100);
+
+  const docsH = r.docs.map((d,i)=>`
+    <div class="rq-doc${ck[i]?' chk':''}" onclick="togDoc('${key}',${i},this)">
+      <div class="rq-cb">${ck[i]?'✓':''}</div>
+      <span>${d}</span>
+    </div>`).join('');
+
+  const stepsH = r.pasos.map((p,i)=>`
+    <div class="rq-step">
+      <div class="rq-step-n">${i+1}</div>
+      <div class="rq-step-body">
+        <div class="rq-step-t">${p.t}</div>
+        <div class="rq-step-s">${p.s}</div>
+      </div>
+    </div>`).join('');
+
+  const lawsH = r.leyes.map(l=>`
+    <div class="rq-law"><span>📖</span><span>${l}</span></div>`).join('');
+
+  const html = `<div class="rq">
+    <div class="rq-hero">
+      <div class="rq-pills"><span class="rq-pill">${r.cat}</span><span class="rq-pill">${r.area}</span></div>
+      <div class="rq-name">${r.t}</div>
+      <div class="rq-desc">${r.desc}</div>
+    </div>
+    <div class="rq-sec">
+      <div class="rq-sec-hdr"><div class="rq-sec-ico">📋</div><div class="rq-sec-title">Documentos necesarios</div></div>
+      <div class="rq-prog">
+        <div class="rq-prog-lbl">Marque los documentos que ya tiene reunidos</div>
+        <div class="rq-prog-bar"><div class="rq-prog-fill" style="width:${pct}%" id="pf_${key}"></div></div>
+        <div class="rq-prog-n" id="pc_${key}">${done} de ${r.docs.length} documentos reunidos</div>
+      </div>
+      <div class="rq-docs">${docsH}</div>
+    </div>
+    <div class="rq-sec">
+      <div class="rq-sec-hdr"><div class="rq-sec-ico">🗺</div><div class="rq-sec-title">Pasos del trámite</div></div>
+      <div class="rq-steps">${stepsH}</div>
+    </div>
+    <div class="rq-sec">
+      <div class="rq-sec-hdr"><div class="rq-sec-ico">📖</div><div class="rq-sec-title">Marco legal aplicable</div></div>
+      <div class="rq-laws">${lawsH}</div>
+    </div>
+    <div class="rq-badges">
+      <div class="rq-badge"><div class="bi">⏱</div><div class="bl">Plazo estimado</div><div class="bv">${r.plazo}</div></div>
+      <div class="rq-badge"><div class="bi">💰</div><div class="bl">Costo aproximado</div><div class="bv">${r.costo}</div></div>
+    </div>
+    <div class="rq-office">
+      <span class="oi">📍</span>
+      <div><div class="ol">Dónde tramitar en Bolivia</div><div class="ov">${r.oficina}</div></div>
+    </div>
+    <button class="rq-consult" onclick="qk('Necesito asesoría completa sobre: ${ej(r.t)}. Explícame los pasos exactos, qué documentos necesito y cómo proceder en Bolivia.')">
+      💬 Consultar al Asesor sobre este trámite
+    </button>
+  </div>`;
+
+  // Update PC panel
+  document.getElementById('rqEmpty').style.display = 'none';
+  const rqCard = document.getElementById('rqCard');
+  rqCard.style.display = 'flex';   // must be flex — parent is display:flex
+  rqCard.style.flexDirection = 'column';
+  rqCard.innerHTML = html;
+  // Always switch the right panel to the Requisitos tab
+  swRP(0);
+
+  // Update mobile panel
+  const mTitle = document.getElementById('mReqTitle');
+  if(mTitle) mTitle.textContent = r.t;
+  const mRq = document.getElementById('mRqCard');
+  if(mRq) mRq.innerHTML = html;
+}
+
+function togDoc(key, idx, el){
+  if(!chkd[key]) chkd[key]={};
+  chkd[key][idx] = !chkd[key][idx];
+  const r = RQ[key];
+  const done = r.docs.filter((_,i)=>chkd[key][i]).length;
+  const pct = Math.round(done/r.docs.length*100);
+  el.classList.toggle('chk', chkd[key][idx]);
+  const cb = el.querySelector('.rq-cb');
+  if(cb) cb.textContent = chkd[key][idx] ? '✓' : '';
+  document.querySelectorAll('#pf_'+key).forEach(e=>e.style.width=pct+'%');
+  document.querySelectorAll('#pc_'+key).forEach(e=>e.textContent=`${done} de ${r.docs.length} documentos reunidos`);
+}
+
+/* ══════════════════════════════════
+   JURISPRUDENCIA — DESKTOP
+══════════════════════════════════ */
+function setTrib(el, t){
+  jpTrib = t;
+  document.getElementById('jpFilters').querySelectorAll('.jp-f').forEach(f=>f.classList.remove('on'));
+  el.classList.add('on');
+  renderJP();
+}
+function renderJP(){
+  const q = (document.getElementById('jpQ')?.value||'').toLowerCase();
+  const list = document.getElementById('jpList');
+  if(!list) return;
+  buildJPHtml(list, q, jpTrib, 'd');
+}
+
+/* ══════════════════════════════════
+   JURISPRUDENCIA — MOBILE
+══════════════════════════════════ */
+function setTribM(el, t){
+  jpTribM = t;
+  document.getElementById('jpFiltersM').querySelectorAll('.jp-f').forEach(f=>f.classList.remove('on'));
+  el.classList.add('on');
+  renderJPM();
+}
+function renderJPM(){
+  const q = (document.getElementById('jpQM')?.value||'').toLowerCase();
+  const list = document.getElementById('jpListM');
+  if(!list) return;
+  buildJPHtml(list, q, jpTribM, 'm');
+}
+
+function buildJPHtml(listEl, q, trib, pfx){
+  const items = JP.filter(j=>{
+    const mt = trib==='all' || j.tr===trib;
+    const ms = !q || j.t.toLowerCase().includes(q) || j.area.toLowerCase().includes(q)
+               || j.r.toLowerCase().includes(q) || j.num.toLowerCase().includes(q);
+    return mt && ms;
+  });
+
+  const aiBtn = `<div class="jp-ai-btn" onclick="aiJuris()">
+    <span class="jp-ai-ico">🤖</span>
+    <div class="jp-ai-txt"><b>Buscar con el Dr. Lex Bolivia (IA)</b>Consulta precedentes, cómo aplicarlos a tu caso y cita sentencias exactas.</div>
+  </div>`;
+
+  if(!items.length){
+    listEl.innerHTML = aiBtn + `<div class="jp-empty">Sin resultados. Pruebe otro término o use la búsqueda con IA ↑</div>`;
+    return;
+  }
+
+  const cards = items.map(j=>`
+    <div class="jp-card" id="${pfx}_${j.id}">
+      <div class="jp-card-hd" onclick="togJP('${pfx}_${j.id}')">
+        <span class="jp-tr ${j.tr}">${j.tr.toUpperCase()}</span>
+        <span class="jp-card-t">${j.t}</span>
+      </div>
+      <div class="jp-card-bd">
+        <p class="cita">${j.num} · ${j.area}</p>
+        <p><strong>Resumen:</strong> ${j.r}</p>
+        <p><strong>Ratio Decidendi:</strong> ${j.ratio}</p>
+        <p class="cita">📖 ${j.cita}</p>
+        <button class="jp-use" onclick="event.stopPropagation();qk('Explícame la sentencia ${j.num}: ${ej(j.t)}. ¿Cómo se aplica al caso práctico? ¿Qué derechos protege?')">
+          💬 Consultar sobre esta sentencia
+        </button>
+      </div>
+      <div class="jp-card-ft" onclick="togJP('${pfx}_${j.id}')">
+        <span>${j.num}</span><span>${j.area} ↕ ver/cerrar</span>
+      </div>
+    </div>`).join('');
+
+  listEl.innerHTML = aiBtn + cards;
+}
+
+function togJP(id){
+  document.getElementById(id)?.classList.toggle('exp');
+}
+
+function aiJuris(){
+  const qD = document.getElementById('jpQ')?.value || '';
+  const qM = document.getElementById('jpQM')?.value || '';
+  const q = qD || qM;
+  qk(`Busca y explícame jurisprudencia boliviana${q?' sobre: '+q:''} del TCP, TSJ o TDJ. Incluye número de sentencia, año, ratio decidendi y cómo aplicarla al caso concreto.`);
+  // On mobile, go to chat
+  if(window.innerWidth <= 850) mNav(0);
+}
+
+/* ══════════════════════════════════
+   MOBILE NAVIGATION — KEY FIX
+   mNav always closes ALL panels first, then opens the target.
+   Bottom nav has z-index:200, panels z-index:150 → nav always on top.
+══════════════════════════════════ */
+function mNav(i){
+  // 1. Update tab indicators
+  document.querySelectorAll('.bn').forEach((b,j)=>b.classList.toggle('on', j===i));
+  // 2. Close ALL panels first
+  ['mDocs','mReq','mJuris'].forEach(id=>document.getElementById(id)?.classList.remove('open'));
+  // 3. Open the target panel (if not chat=0)
+  if(i===1){
+    renderSB(document.getElementById('sbQ')?.value||'');
+    document.getElementById('mDocs').classList.add('open');
+  } else if(i===2){
+    document.getElementById('mReq').classList.add('open');
+  } else if(i===3){
+    renderJPM();
+    document.getElementById('mJuris').classList.add('open');
+  }
+  // i===0: chat — all panels already closed above
+}
+
+/* ══════════════════════════════════
+   CHAT
+══════════════════════════════════ */
+function aResize(el){
+  el.style.height='auto';
+  el.style.height=Math.min(el.scrollHeight,130)+'px';
+}
+function hKey(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();doSend()} }
+function qk(t){ document.getElementById('inp').value=t; doSend(); }
+
+async function doSend(){
+  const inp = document.getElementById('inp');
+  const txt = inp.value.trim();
+  if(!txt || gen) return;
+  gen = true;
+  document.getElementById('sBtn').disabled = true;
+
+  const ciudad = document.getElementById('ctxC')?.value || 'Tarija';
+  const fecha  = document.getElementById('ctxF')?.value  || new Date().toISOString().split('T')[0];
+  const tipo   = document.getElementById('ctxT')?.value  || 'general';
+  const ctx = `[Ciudad: ${ciudad}, Fecha: ${fecha}, Tipo de documento: ${tipo}]\n`;
+
+  inp.value = '';
+  inp.style.height = 'auto';
+
+  addMsg('u', escH(txt));
+  hist.push({role:'user', content: ctx+txt});
+  addTyp();
+
+  try{
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({model:'claude-sonnet-4-20250514', max_tokens:1000, system:SYS, messages:hist})
+    });
+    const data = await res.json();
+    removeTyp();
+    if(data.content?.[0]){
+      const reply = data.content[0].text;
+      hist.push({role:'assistant', content:reply});
+      addMsg('a', md2h(reply), reply.length>300, reply);
+    } else {
+      addMsg('a','<em style="color:var(--muted)">Error al obtener respuesta. Verifique su conexión.</em>',false,'');
+    }
+  } catch(e){
+    removeTyp();
+    addMsg('a',`<em style="color:var(--muted)">Error de conexión: ${e.message}</em>`,false,'');
+  }
+  gen = false;
+  document.getElementById('sBtn').disabled = false;
+  document.getElementById('inp').focus();
+}
+
+function addMsg(role, html, isDoc=false, raw=''){
+  const w = document.getElementById('welcome');
+  if(w) w.remove();
+  const area = document.getElementById('chatArea');
+  const wrap = document.createElement('div');
+  wrap.className = 'msg '+role;
+  const av = document.createElement('div');
+  av.className='av'; av.textContent = role==='u'?'👤':'⚖';
+  const body = document.createElement('div');
+  body.className='msg-body';
+  const bub = document.createElement('div');
+  bub.className='bubble'; bub.innerHTML=html;
+  if(raw) bub.dataset.raw=raw;
+  const acts = document.createElement('div');
+  acts.className='msg-acts';
+  if(role==='a'){
+    let b = `<button class="act" onclick="cp(this)">⎘ Copiar</button>`;
+    if(isDoc) b += `<button class="act w" onclick="dlW(this)">📄 Word</button>
+                   <button class="act p" onclick="dlP(this)">📕 PDF</button>`;
+    b += `<button class="act j" onclick="askJuris(this)">⚖ Jurisprudencia</button>`;
+    acts.innerHTML = b;
+  }
+  body.appendChild(bub); body.appendChild(acts);
+  if(role==='u'){wrap.appendChild(body);wrap.appendChild(av);}
+  else{wrap.appendChild(av);wrap.appendChild(body);}
+  area.appendChild(wrap);
+  area.scrollTop = area.scrollHeight;
+}
+
+function addTyp(){
+  const w = document.getElementById('welcome');
+  if(w) w.remove();
+  const area = document.getElementById('chatArea');
+  const d = document.createElement('div');
+  d.id='typing'; d.className='typ-row';
+  d.innerHTML=`<div class="av">⚖</div><div class="typ-bub">Elaborando el documento <div class="tdots"><span></span><span></span><span></span></div></div>`;
+  area.appendChild(d);
+  area.scrollTop = area.scrollHeight;
+}
+function removeTyp(){ document.getElementById('typing')?.remove(); }
+
+function clearChat(){
+  hist=[]; selId=null;
+  renderSB(document.getElementById('sbQ')?.value||'');
+  document.getElementById('chatArea').innerHTML=`
+    <div class="welcome" id="welcome">
+      <div class="w-seal">⚖</div>
+      <div class="w-title">Asesor Jurídico Bolivia</div>
+      <p class="w-sub">Redacto documentos legales en formato oficial boliviano, explico requisitos de trámites y consulto jurisprudencia del TCP y TSJ.</p>
+      <div class="w-feats">
+        <span class="w-feat">📄 Word &amp; PDF</span>
+        <span class="w-feat">✅ Checklist de documentos</span>
+        <span class="w-feat">⚖ Jurisprudencia TCP/TSJ</span>
+        <span class="w-feat">35+ tipos de documentos</span>
+      </div>
+      <div class="w-hint" id="wHint"></div>
+      <div class="w-author">
+        <span class="w-author-ico">⚖</span>
+        <div>
+          <div class="w-author-name">Lic. Carmen Beatriz Zalles Castellanos</div>
+          <div class="w-author-sub">Docente · UAJMS Facultad de Ciencias Empresariales · Sede Yacuiba, Tarija, Bolivia</div>
+        </div>
+      </div>
+    </div>`;
+  setHint();
+}
+
+function askJuris(btn){
+  const bub = btn.closest('.msg-body').querySelector('.bubble');
+  const txt = bub.innerText.substring(0,100).replace(/\n/g,' ');
+  if(window.innerWidth>850){ if(!rpOpen) toggleRP(); swRP(1); }
+  qk(`Busca jurisprudencia boliviana del TCP o TSJ relacionada con: ${txt}`);
+}
+
+/* ══════════════════════════════════
+   MARKDOWN → HTML
+══════════════════════════════════ */
+function md2h(t){
+  return t
+    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^## (.+)$/gm,'<h2>$1</h2>')
+    .replace(/^# (.+)$/gm,'<h1>$1</h1>')
+    .replace(/\*\*\*(.+?)\*\*\*/gs,'<strong><em>$1</em></strong>')
+    .replace(/\*\*(.+?)\*\*/gs,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/gs,'<em>$1</em>')
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/^---+$/gm,'<hr>')
+    .replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>')
+    .replace(/^\d+\.\s(.+)$/gm,'<li>$1</li>')
+    .replace(/^[-•]\s(.+)$/gm,'<li>$1</li>')
+    .replace(/(<li>.*<\/li>\n?)+/gm, m=>`<ul>${m}</ul>`)
+    .replace(/<\/ul>\s*<ul>/g,'')
+    .replace(/\n\n+/g,'</p><p>')
+    .replace(/\n/g,'<br>')
+    .replace(/^([^<].+)$/gm,'<p>$1</p>')
+    .replace(/<p><\/p>/g,'');
+}
+
+/* ══════════════════════════════════
+   COPY / DOWNLOAD
+══════════════════════════════════ */
+function cp(btn){
+  const b = btn.closest('.msg-body').querySelector('.bubble');
+  navigator.clipboard.writeText(b.dataset.raw||b.innerText).then(()=>toast('✓ Copiado al portapapeles'));
+}
+
+function dlW(btn){
+  const b = btn.closest('.msg-body').querySelector('.bubble');
+  const raw = b.dataset.raw||b.innerText;
+  const title = getTitle(raw)||'Documento Jurídico Bolivia';
+  const body = raw
+    .replace(/^### (.+)$/gm,'<h3>$1</h3>').replace(/^## (.+)$/gm,'<h2>$1</h2>').replace(/^# (.+)$/gm,'<h1>$1</h1>')
+    .replace(/\*\*(.+?)\*\*/gs,'<strong>$1</strong>').replace(/\*(.+?)\*/gs,'<em>$1</em>')
+    .replace(/^[-•]\s(.+)$/gm,'<li>$1</li>').replace(/^\d+\.\s(.+)$/gm,'<li>$1</li>')
+    .replace(/(<li>.*<\/li>\n?)+/gm, m=>`<ul>${m}</ul>`).replace(/<\/ul>\s*<ul>/g,'')
+    .replace(/^---+$/gm,'<hr>').replace(/\n\n+/g,'</p><p>').replace(/\n/g,'<br>');
+
+  /* Márgenes oficiales bolivianos: Izq 3.5cm · Der 2.5cm · Sup 2.5cm · Inf 2.5cm
+     En DXA (1440 DXA = 1 inch = 2.54cm):
+     3.5cm = 1984 DXA · 2.5cm = 1418 DXA */
+  const html = `<!DOCTYPE html>
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">
+<head><meta charset="UTF-8"><title>${title}</title>
+<!--[if gte mso 9]><xml><w:WordDocument>
+  <w:View>Print</w:View><w:Zoom>100</w:Zoom>
+  <w:DoNotOptimizeForBrowser/>
+</w:WordDocument></xml><![endif]-->
+<style>
+/* Márgenes oficiales bolivianos: Izq 3.5cm · Der 2.5cm · Sup 2.5cm · Inf 2.5cm */
+@page Section1 {
+  size:21cm 29.7cm;
+  margin-top:2.5cm; margin-bottom:2.5cm;
+  margin-left:3.5cm; margin-right:2.5cm;
+  mso-page-orientation:portrait;
+}
+div.Section1{page:Section1}
+body{
+  font-family:Arial,sans-serif;font-size:12pt;
+  line-height:1.5;color:#000000;text-align:justify;
+}
+h1{font-size:14pt;font-weight:bold;text-align:center;text-transform:uppercase;margin:16pt 0 10pt;letter-spacing:1pt}
+h2{font-size:12pt;font-weight:bold;margin:12pt 0 6pt;text-transform:uppercase;border-bottom:1pt solid #ccc;padding-bottom:2pt}
+h3{font-size:12pt;font-weight:bold;margin:10pt 0 4pt}
+p{margin:5pt 0;text-align:justify;font-size:12pt}
+ul,ol{margin:4pt 0 4pt 18pt;font-size:12pt}
+li{margin:3pt 0}
+strong{font-weight:bold}
+em{font-style:italic}
+hr{border:1pt solid #999;margin:10pt 0}
+blockquote{border-left:3pt solid #888;padding-left:10pt;margin:8pt 0;font-style:italic}
+.footer{margin-top:60pt;border-top:1pt solid #666;padding-top:8pt;font-size:9pt;color:#444;text-align:center}
+</style></head>
+<body><div class="Section1">
+${body}
+<div class="footer">
+  <strong>Lic. Carmen Beatriz Zalles Castellanos</strong><br>
+  Docente Universitaria · Facultad de Ciencias Empresariales · UAJMS · Sede Yacuiba, Gran Chaco, Tarija, Bolivia<br>
+  <em>Documento modelo orientativo — Adáptelo a los hechos específicos del caso — Requiere revisión por abogado habilitado ante el Colegio de Abogados de Bolivia</em>
+</div>
+</div></body></html>`;
+
+  trigDL(new Blob(['\ufeff',html],{type:'application/msword'}), sf(title)+'.doc');
+  toast('✓ Documento Word descargado');
+}
+
+function dlP(btn){
+  if(!window.jspdf){ toast('⚠ jsPDF no disponible'); return; }
+  const b = btn.closest('.msg-body').querySelector('.bubble');
+  const raw = b.dataset.raw||b.innerText;
+  const title = getTitle(raw)||'Documento Jurídico Bolivia';
+  const {jsPDF} = window.jspdf;
+  const doc = new jsPDF({unit:'mm', format:'a4'});
+  // Márgenes oficiales bolivianos: Izq 35mm · Der 25mm · Sup 25mm · Inf 25mm
+  const pW=210, pH=297, mL=35, mR=25, mT=26, mB=25, cW=pW-mL-mR;
+  let y = mT;
+
+  const dH = ()=>{
+    doc.setFillColor(44,36,24); doc.rect(0,0,pW,13,'F');
+    doc.setFontSize(7); doc.setTextColor(196,160,96); doc.setFont('helvetica','bold');
+    doc.text('ASESOR JURÍDICO BOLIVIA', mL, 8.5);
+    doc.setFont('helvetica','normal'); doc.setFontSize(6.5); doc.setTextColor(160,130,80);
+    doc.text('Legislación Boliviana Vigente · Estado Plurinacional', pW/2, 8.5,{align:'center'});
+    doc.setFont('helvetica','bold'); doc.setFontSize(6.5); doc.setTextColor(196,160,96);
+    doc.text('Lic. C.B. Zalles Castellanos', pW-mR, 8.5,{align:'right'});
+  };
+  const dF = ()=>{
+    doc.setFillColor(44,36,24); doc.rect(0,pH-13,pW,13,'F');
+    doc.setFontSize(6.5); doc.setTextColor(196,160,96); doc.setFont('helvetica','bold');
+    doc.text('Lic. Carmen Beatriz Zalles Castellanos  ·  UAJMS Ciencias Empresariales  ·  Yacuiba, Tarija, Bolivia', pW/2,pH-7,{align:'center'});
+    doc.setFont('helvetica','normal'); doc.setFontSize(5.5); doc.setTextColor(170,140,70);
+    doc.text('Documento modelo orientativo · Requiere revisión por abogado habilitado ante el Colegio de Abogados de Bolivia', pW/2,pH-3.5,{align:'center'});
+  };
+  dH();
+  const ck = (n)=>{ if(y+n>pH-mB-14){ dF(); doc.addPage(); dH(); y=mT; } };
+  const wr = (s,fs,bold,center)=>{
+    doc.setFontSize(fs); doc.setFont('helvetica',bold?'bold':'normal'); doc.setTextColor(20,20,20);
+    doc.splitTextToSize(s,cW).forEach(l=>{
+      ck(fs*.4+1.2);
+      if(center) doc.text(l,pW/2,y,{align:'center'}); else doc.text(l,mL,y);
+      y += fs*.4+0.9;
+    });
+  };
+  raw.split('\n').forEach(ln=>{
+    const l = ln.trim(); if(!l){y+=2.5;return;}
+    if(/^#\s/.test(ln)){y+=2;wr(l.replace(/^#+\s*/,'').toUpperCase(),13,true,true);y+=2;}
+    else if(/^##\s/.test(ln)){y+=1;wr(l.replace(/^#+\s*/,''),12,true,false);y+=1.5;}
+    else if(/^###\s/.test(ln)){wr(l.replace(/^#+\s*/,''),11,true,false);y+=1;}
+    else if(/^[-•]\s/.test(ln)){wr('  •  '+l.replace(/^[-•]\s/,''),10.5,false,false);}
+    else if(/^\d+\.\s/.test(ln)){wr('  '+l,10.5,false,false);}
+    else if(/^---+$/.test(l)){ck(4);doc.setDrawColor(180,150,80);doc.setLineWidth(.25);doc.line(mL,y,pW-mR,y);y+=3;}
+    else{ const c=l.replace(/\*\*(.+?)\*\*/g,'$1').replace(/\*(.+?)\*/g,'$1'); wr(c,10.5,false,false); }
+  });
+  const tp = doc.getNumberOfPages();
+  for(let p=1;p<=tp;p++){
+    doc.setPage(p); dF();
+    doc.setFontSize(7); doc.setTextColor(150,120,60);
+    doc.text(`Pág. ${p} / ${tp}`, pW-mR, pH-7,{align:'right'});
+  }
+  doc.save(sf(title)+'.pdf');
+  toast('✓ PDF descargado exitosamente');
+}
+
+/* ══════════════════════════════════
+   UTILS
+══════════════════════════════════ */
+function getTitle(t){
+  for(const l of t.split('\n')){
+    const c=l.replace(/^#+\s*/,'').replace(/\*\*/g,'').trim();
+    if(c.length>8&&c.length<100) return c;
+  }
+  return null;
+}
+function sf(s){ return s.replace(/[^\w\sáéíóúÁÉÍÓÚñÑ]/g,'').replace(/\s+/g,'_').substring(0,55)+'_Bolivia'; }
+function ej(s){ return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' '); }
+function esc(s){ return s.replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escH(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'); }
+function trigDL(blob,name){
+  const url=URL.createObjectURL(blob), a=document.createElement('a');
+  a.href=url; a.download=name; document.body.appendChild(a); a.click();
+  document.body.removeChild(a); setTimeout(()=>URL.revokeObjectURL(url),3000);
+}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+</script>
+</body>
+</html>
